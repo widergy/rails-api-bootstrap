@@ -217,6 +217,16 @@ You can find more documentation in the [docs](docs) folder. The available docs a
 - [Locales structure](docs/locales.md)
 - [Seeds](docs/seeds.md)
 
+## Contributing
+
+1. Fork it
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Run rspec tests (`bundle exec rspec spec -fd`)
+5. Run rubocop lint (`bundle exec rubocop app spec -R`)
+6. Push your branch (`git push origin my-new-feature`)
+7. Create a new Pull Request
+
 ## About
 
 This project is written by [Widergy](http://www.widergy.com).
