@@ -1,0 +1,79 @@
+version: 2
+jobs:
+  build-and-test:
+    working_directory: ~/rails-api-bootstrap
+
+    docker:
+      - image: circleci/ruby:2.6.2
+        environment:
+          RAILS_ENV: test
+          PGHOST: 127.0.0.1
+          DATABASE_URL: postgres://rails-api-bootstrap@127.0.0.1:5432/rails-api-bootstrap_test
+
+      - image: redis:3.2
+
+      - image: circleci/postgres:9.5-alpine
+        environment:
+          POSTGRES_USER: rails-api-bootstrap
+          POSTGRES_DB: rails-api-bootstrap_test
+          POSTGRES_PASSWORD: ""
+
+    steps:
+      - checkout
+
+      - run: echo "USING CIRCLE 2.0"
+
+      # Show bundler version
+      - run:
+          name: Which bundler?
+          command: bundle -v
+
+      # Restore bundle cache
+      - restore_cache:
+          keys:
+          - rails-api-bootstrap-bundle-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - rails-api-bootstrap-bundle-
+
+      - run:
+          name: Bundle install dependencies
+          command: |
+            bundle check --path vendor/bundle || bundle install --without development --jobs=4 --retry=3 --path vendor/bundle
+
+      # Show rails version
+      - run:
+          name: Which rails?
+          command: bundle show rails
+
+      # Store bundle cache
+      - save_cache:
+          key: rails-api-bootstrap-bundle-{{ checksum "Gemfile.lock" }}
+          paths:
+            - ~/rails-api-bootstrap/vendor/bundle
+
+      # Database setup
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Load DB schema
+          command: |
+            bundle exec rake db:create
+            bundle exec rake db:schema:load --trace
+
+      # Rubocop
+      - run:
+          name: Run Rubocop
+          command: bundle exec rubocop app spec -R --format simple
+
+      # Tests
+      - run:
+          name: Run Tests
+          command: bundle exec rspec
+
+workflows:
+  version: 2
+  build-and-test:
+    jobs:
+      - build-and-test
