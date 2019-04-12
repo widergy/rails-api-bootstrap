@@ -89,6 +89,8 @@ Kickoff for Rails API applications.
 
 ### 4- Application Setup
 
+- Run ./script/bootstrap app_name where app_name is your application name.
+
 Your server is ready to run. You can do this by executing `bundle exec rails server` inside the project's directory and going to [http://localhost:3000](http://localhost:3000).
 
 Your app is ready. Happy coding!
