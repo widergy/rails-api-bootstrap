@@ -13,7 +13,26 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+require 'simplecov'
+SimpleCov.start
+require 'factory_bot'
+require 'faker'
+# require 'webmock/rspec'
+
 RSpec.configure do |config|
+  config.include FactoryBot::Syntax::Methods
+
+  Faker::Config.random = Random.new(config.seed)
+
+  config.before(:all) do
+    FactoryBot.reload
+  end
+
+  # config.after(:each) do
+  #   Timecop.return
+  # end
+
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
   # assertions if you prefer.
@@ -26,6 +45,7 @@ RSpec.configure do |config|
     # ...rather than:
     #     # => "be bigger than 2"
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+    expectations.syntax = :expect
   end
 
   # rspec-mocks config goes here. You can use an alternate test double

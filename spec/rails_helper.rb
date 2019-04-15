@@ -1,6 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
+require 'support/spec_helper'
 require File.expand_path('../../config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
@@ -20,7 +20,27 @@ require 'rspec/rails'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
+
+# VCR Configuration
+# require 'vcr'
+# require 'webmock/rspec'
+#
+# VCR_LOGGER_PATH = "#{Rails.root}/log/#{Rails.env}/vcr.log".freeze
+#
+# VCR.configure do |c|
+#   # Enable debug logging for troubleshooting
+#   # c.debug_logger = File.open(VCR_LOGGER_PATH, 'w')
+#   c.ignore_hosts 'codeclimate.com'
+#   c.cassette_library_dir = 'spec/cassettes'
+#   c.hook_into :webmock
+#   c.configure_rspec_metadata!
+#   c.allow_http_connections_when_no_cassette = false
+# end
+
+RSpec::Sidekiq.configure do |config|
+  config.warn_when_jobs_not_processed_by_sidekiq = false
+end
 
 # Checks for pending migrations and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove these lines.
@@ -30,9 +50,14 @@ rescue ActiveRecord::PendingMigrationError => e
   puts e.to_s.strip
   exit 1
 end
+
 RSpec.configure do |config|
+  config.include FactoryBotMacros
+  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Response::JSONParser, type: :controller
+  config.order = 'random'
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
-  config.fixture_path = "#{::Rails.root}/spec/fixtures"
+  config.file_fixture_path = Rails.root.join('spec', 'support', 'fixtures')
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
