@@ -10,28 +10,12 @@ Kickoff for Rails API applications.
 
 ## Running local server
 
-### 1- Installing Ruby
-
-- Clone the repository by running `git clone https://github.com/widergy/rails-api-bootstrap.git`
-- Go to the project root by running `cd rails-api-bootstrap`
-- Download and install [Rbenv](https://github.com/rbenv/rbenv#basic-github-checkout).
-- Download and install [Ruby-Build](https://github.com/rbenv/ruby-build#installing-as-an-rbenv-plugin-recommended).
-- Install the appropriate Ruby version by running `rbenv install [version]` where `version` is the one located in [.ruby-version](.ruby-version). If the version you are looking cannot be found, [be sure to have Ruby-Build updated](https://github.com/rbenv/ruby-build#upgrading)
-
-### 2- Installing Rails gems
-
-- Install [Bundler](http://bundler.io/).
-
-```bash
-  gem install bundler --no-ri --no-rdoc
-  rbenv rehash
-```
-- Install basic dependencies:
+### 1- Installing basic dependencies:
 
   - If you are using Ubuntu:
 
   ```bash
-    sudo apt-get install build-essential libpq-dev nodejs
+    sudo apt-get install build-essential libpq-dev nodejs libssl-dev libreadline-dev zlib1g-dev
   ```
 
   - If you are using MacOS:
@@ -40,13 +24,29 @@ Kickoff for Rails API applications.
     brew install postgresql
   ```
 
+### 2- Installing Ruby
+
+- Clone the repository by running `git clone https://github.com/widergy/rails-api-bootstrap.git`
+- Go to the project root by running `cd rails-api-bootstrap`
+- Download and install [Rbenv](https://github.com/rbenv/rbenv#basic-github-checkout).
+- Download and install [Ruby-Build](https://github.com/rbenv/ruby-build#installing-as-an-rbenv-plugin-recommended).
+- Install the appropriate Ruby version by running `rbenv install [version]` where `version` is the one located in [.ruby-version](.ruby-version)
+
+### 3- Installing Rails gems
+
+- Install [Bundler](http://bundler.io/).
+
+```bash
+  gem install bundler --no-ri --no-rdoc
+  rbenv rehash
+```
 - Install all the gems included in the project.
 
 ```bash
   bundle -j 20
 ```
 
-### 3- Database Setup
+### 4- Database Setup
 
 - Install postgres in your local machine:
 
@@ -87,7 +87,7 @@ Kickoff for Rails API applications.
   bundle exec rake db:create db:migrate
 ```
 
-### 4- Application Setup
+### 5- Application Setup
 
 - Run ./script/bootstrap app_name where app_name is your application name.
 
