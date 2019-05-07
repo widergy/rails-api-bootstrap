@@ -33,6 +33,9 @@ module RailsApiBootstrap
     config.api_only = true
     config.app_generators.scaffold_controller = :scaffold_controller
 
+    # Configure Active Job to work with Sidekiq
+    config.active_job.queue_adapter = :sidekiq
+
     # Middleware for ActiveAdmin
     config.middleware.use Rack::MethodOverride
     config.middleware.use ActionDispatch::Flash

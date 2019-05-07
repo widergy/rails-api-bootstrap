@@ -19,6 +19,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise', '~> 4.6'
 gem 'devise-i18n'
 
+# Centralization of locale data collection for Ruby on Rails.
+gem 'rails-i18n', '~> 5.1'
+
 # Active Admin provides an instant CMS backend.
 gem 'activeadmin', '~> 1.4'
 # gem 'activeadmin_addons'
@@ -31,10 +34,9 @@ gem 'fast_jsonapi', '~> 1.5'
 
 # Sidekiq
 gem 'sidekiq', '~> 5.2'
-# gem 'sidekiq-failures'
+gem 'sidekiq-failures'
 # gem 'sidekiq_mailer'
-# gem 'sidekiq-cron', '~> 0.4.0'
-# gem 'sidekiq-scheduler'
+# gem 'sidekiq-scheduler', '~> 3.0'
 
 # Exceptions Report
 gem 'rollbar'
@@ -127,6 +129,9 @@ group :test do
   gem 'rspec-sidekiq'
   gem 'shoulda-matchers', '~> 4.0'
 
+  # Code coverage
+  gem 'simplecov', require: false
+
   # Mocking
   # gem 'timecop', '~> 0.9'
   # gem 'webmock'
@@ -151,6 +156,19 @@ group :development, :test do
   # Factories
   gem 'factory_bot_rails'
   gem 'faker'
+
+  # Code style
+  gem 'rubocop', '~> 0.67.2', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rspec', '~> 1.32.0', require: false
+
+  # Static analysis for security vulnerabilities
+  gem 'brakeman', require: false
+
+  # Code quality
+  # gem 'codestats-metrics-reporter', '0.1.9', require: false
+  gem 'rails_best_practices', require: false
+  gem 'rubycritic', require: false
 
   # Use for storing credentials and not uploading them to github. Loads ENV variables from .env
   # file in base folder
@@ -179,20 +197,6 @@ group :development do
 
   # Add a comment summarizing the current schema to the top or bottom of each of your models
   gem 'annotate'
-
-  # Code style
-  gem 'rubocop', '~> 0.67.2', require: false
-  gem 'rubocop-performance', require: false
-  gem 'rubocop-rspec', '~> 1.32.0', require: false
-
-  # Static analysis for security vulnerabilities
-  gem 'brakeman', require: false
-
-  # Code quality
-  # gem 'codestats-metrics-reporter', '0.1.9', require: false
-  gem 'rails_best_practices', require: false
-  gem 'rubycritic', require: false
-  gem 'simplecov', require: false
 
   # Required gem to use RailsPanel Chrome extension
   # gem 'meta_request'
