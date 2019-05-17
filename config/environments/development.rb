@@ -9,6 +9,9 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+  # Log in console any unpermitted parameters
+  config.action_controller.action_on_unpermitted_parameters = :log
+
   # Show full error reports.
   config.consider_all_requests_local = true
 
@@ -44,11 +47,23 @@ Rails.application.configure do
   # Highlight code that triggered database queries in logs.
   config.active_record.verbose_query_logs = true
 
-
   # Raises error for missing translations
-  # config.action_view.raise_on_missing_translations = true
+  config.action_view.raise_on_missing_translations = true
 
   # Use an evented file watcher to asynchronously detect changes in source code,
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
+
+  # Bullet gem configuration
+  config.after_initialize do
+    Bullet.enable = true
+    Bullet.alert = true
+    Bullet.bullet_logger = true
+    Bullet.console = true
+    Bullet.rails_logger = true
+    Bullet.add_footer = true
+    # Detect eager-loaded associations which are not used
+    # Disabled to avoid unused eager loading alert when resolving N+1 Query problem
+    # Bullet.unused_eager_loading_enable = false
+  end
 end

@@ -4,7 +4,7 @@ jobs:
     working_directory: ~/rails-api-bootstrap
 
     docker:
-      - image: circleci/ruby:2.6.2
+      - image: circleci/ruby:2.6.2-stretch-node
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1

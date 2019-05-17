@@ -14,16 +14,18 @@
 # Configure Using Gemfile
 # gem 'pg'
 #
-default: &default
+
+development: &default
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-development:
-  <<: *default
+  pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 5 %>
   database: rails-api-bootstrap_development
+  username: <%= ENV.fetch('DB_USERNAME', 'rails-api-bootstrap') %>
+  password: <%= ENV.fetch('DB_PASSWORD', 'rails-api-bootstrap') %>
+  host: <%= ENV.fetch('DB_1_PORT_5432_TCP_ADDR', 'localhost') %>
+  port: <%= ENV.fetch('DB_1_PORT_5432_TCP_PORT', '5432') %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -55,7 +57,7 @@ development:
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
-test:
+test: &test
   <<: *default
   database: rails-api-bootstrap_test
 
@@ -78,8 +80,11 @@ test:
 #   production:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
-production:
-  <<: *default
-  database: rails-api-bootstrap_production
-  username: rails-api-bootstrap
-  password: <%= ENV['RAILS-API-BOOTSTRAP_DATABASE_PASSWORD'] %>
+production: &production
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV["DB_POOL"] || ENV['RAILS_MAX_THREADS'] || 5 %>
+  url: <%= ENV['DATABASE_URL'] %>
+
+staging:
+  <<: *production

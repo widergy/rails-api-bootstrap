@@ -22,9 +22,10 @@ require 'rspec/rails'
 #
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
+require 'webmock/rspec'
+
 # VCR Configuration
 # require 'vcr'
-# require 'webmock/rspec'
 #
 # VCR_LOGGER_PATH = "#{Rails.root}/log/#{Rails.env}/vcr.log".freeze
 #

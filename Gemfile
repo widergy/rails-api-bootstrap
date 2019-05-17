@@ -60,6 +60,12 @@ gem 'rails-erd'
 # method.
 gem 'wannabe_bool'
 
+# Gem to detect N+1 queries
+gem 'bullet'
+
+# A serializer implementation for Ruby On Rails Objects.
+# gem 'active_model_serializers', '~> 0.10.9'
+
 # pg_search builds ActiveRecord named scopes that take advantage of PostgreSQL's full text search
 # gem 'pg_search'
 
@@ -133,8 +139,8 @@ group :test do
   gem 'simplecov', require: false
 
   # Mocking
+  gem 'webmock'
   # gem 'timecop', '~> 0.9'
-  # gem 'webmock'
   # gem 'vcr', '~> 4.0'
 end
 
@@ -157,6 +163,10 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'faker'
 
+  # Use for storing credentials and not uploading them to github. Loads ENV variables from .env
+  # file in base folder
+  gem 'dotenv-rails'
+
   # Code style
   gem 'rubocop', '~> 0.67.2', require: false
   gem 'rubocop-performance', require: false
@@ -169,10 +179,6 @@ group :development, :test do
   # gem 'codestats-metrics-reporter', '0.1.9', require: false
   gem 'rails_best_practices', require: false
   gem 'rubycritic', require: false
-
-  # Use for storing credentials and not uploading them to github. Loads ENV variables from .env
-  # file in base folder
-  # gem 'dotenv-rails'
 
   # Speedup Test::Unit + RSpec + Cucumber + Spinach by running parallel on multiple CPU cores.
   # gem 'parallel_tests'
@@ -191,9 +197,6 @@ group :development do
   # Better Errors replaces the standard Rails error page with a much better and more useful
   # error page.
   gem 'better_errors'
-
-  # Gem to detect N+1 queries
-  gem 'bullet'
 
   # Add a comment summarizing the current schema to the top or bottom of each of your models
   gem 'annotate'

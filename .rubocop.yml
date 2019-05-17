@@ -17,6 +17,9 @@ Documentation:
 
 LineLength:
   Max: 99
+  Exclude:
+    - spec/**/*
+    - config/routes.rb
 
 HasAndBelongsToMany:
   Enabled: false

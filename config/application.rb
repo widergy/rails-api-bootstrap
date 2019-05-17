@@ -12,6 +12,7 @@ require "action_view/railtie"
 require "action_cable/engine"
 require "sprockets/railtie"
 require "rails/test_unit/railtie"
+require 'wannabe_bool'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -35,6 +36,15 @@ module RailsApiBootstrap
 
     # Configure Active Job to work with Sidekiq
     config.active_job.queue_adapter = :sidekiq
+
+    # Adds lib folder to eager load paths
+    config.eager_load_paths << Rails.root.join('lib')
+
+    # Sets the default time zone
+    config.time_zone = 'America/Argentina/Buenos_Aires'
+
+    # Tell your app to use the Rack::Attack middleware
+    config.middleware.use Rack::Attack
 
     # Middleware for ActiveAdmin
     config.middleware.use Rack::MethodOverride
