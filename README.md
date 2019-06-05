@@ -15,7 +15,8 @@ Kickoff for Rails API applications.
   - If you are using Ubuntu:
 
   ```bash
-    sudo apt-get install build-essential libpq-dev nodejs libssl-dev libreadline-dev zlib1g-dev
+    sudo apt update
+    sudo apt install build-essential libpq-dev nodejs libssl-dev libreadline-dev zlib1g-dev redis-server
   ```
 
   - If you are using MacOS:
@@ -28,7 +29,7 @@ Kickoff for Rails API applications.
 
 - Clone the repository by running `git clone https://github.com/widergy/rails-api-bootstrap.git`
 - Go to the project root by running `cd rails-api-bootstrap`
-- Download and install [Rbenv](https://github.com/rbenv/rbenv#basic-github-checkout).
+- Download and install [Rbenv](https://github.com/rbenv/rbenv#basic-github-checkout). Read the [How rbenv hooks into your shell](https://github.com/rbenv/rbenv#how-rbenv-hooks-into-your-shell) section and the `rbenv init - ` output carefully. You may need to do step 1 of that section manually.
 - Download and install [Ruby-Build](https://github.com/rbenv/ruby-build#installing-as-an-rbenv-plugin-recommended).
 - Install the appropriate Ruby version by running `rbenv install [version]` where `version` is the one located in [.ruby-version](.ruby-version)
 
@@ -53,7 +54,7 @@ Kickoff for Rails API applications.
   - If you are using Ubuntu:
 
   ```bash
-    sudo apt-get install postgresql-9.6
+    sudo apt install postgresql
   ```
 
   - If you are using MacOS: install [Postgres.app](https://postgresapp.com/)
