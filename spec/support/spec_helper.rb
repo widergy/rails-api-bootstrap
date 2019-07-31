@@ -16,6 +16,10 @@
 
 require 'simplecov'
 SimpleCov.start
+# To exclude files from coverage analysis
+# SimpleCov.start do
+#   add_filter 'app/admin'
+# end
 require 'factory_bot'
 require 'faker'
 # require 'webmock/rspec'

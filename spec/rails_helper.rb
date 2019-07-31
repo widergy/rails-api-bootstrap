@@ -22,14 +22,16 @@ require 'rspec/rails'
 #
 Dir[Rails.root.join('spec', 'support', '**', '*.rb')].each { |f| require f }
 
-require 'webmock/rspec'
-
 # VCR Configuration
 # require 'vcr'
-#
+require 'webmock/rspec'
+
 # VCR_LOGGER_PATH = "#{Rails.root}/log/#{Rails.env}/vcr.log".freeze
 #
 # VCR.configure do |c|
+#   c.before_record do |cassette|
+#     cassette.response.body.force_encoding('UTF-8')
+#   end
 #   # Enable debug logging for troubleshooting
 #   # c.debug_logger = File.open(VCR_LOGGER_PATH, 'w')
 #   c.ignore_hosts 'codeclimate.com'
@@ -38,6 +40,15 @@ require 'webmock/rspec'
 #   c.configure_rspec_metadata!
 #   c.allow_http_connections_when_no_cassette = false
 # end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :active_record
+    with.library :active_model
+    with.library :rails
+  end
+end
 
 RSpec::Sidekiq.configure do |config|
   config.warn_when_jobs_not_processed_by_sidekiq = false
