@@ -7,7 +7,8 @@ url = ENV['REDIS_URL'] || "redis://#{ENV.fetch('REDIS_1_PORT_6379_TCP_ADDR', '12
 Sidekiq.configure_server do |config|
   config.redis = { url: url }
   # https://stackoverflow.com/questions/17606200/log-inside-sidekiq-worker
-  Rails.logger = Sidekiq::Logging.logger
+  # TODO: Check this config that isn't working with sidekiq v6
+  # Rails.logger = Sidekiq::Logging.logger
 end
 
 Sidekiq.configure_client do |config|
