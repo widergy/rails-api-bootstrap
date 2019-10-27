@@ -16,7 +16,7 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 
 # Authentication
-gem 'devise', '~> 4.6'
+gem 'devise', '~> 4.7'
 gem 'devise-i18n'
 
 # Centralization of locale data collection for Ruby on Rails.
