@@ -27,10 +27,10 @@ gem 'activeadmin', '~> 1.4'
 # gem 'activeadmin_addons'
 
 # Use for sending request to 3rd party APIs
-gem 'httparty', '~> 0.16'
+gem 'httparty', '~> 0.17'
 
-# A lightning fast JSON:API serializer for Ruby Objects.
-gem 'fast_jsonapi', '~> 1.5'
+# A serializer implementation for Ruby On Rails Objects.
+gem 'active_model_serializers', '~> 0.10.9'
 
 # Sidekiq
 gem 'sidekiq', '~> 5.2'
@@ -63,8 +63,8 @@ gem 'wannabe_bool'
 # Gem to detect N+1 queries
 gem 'bullet'
 
-# A serializer implementation for Ruby On Rails Objects.
-# gem 'active_model_serializers', '~> 0.10.9'
+# (alternative to active_model_serializers) A lightning fast JSON:API serializer for Ruby Objects.
+# gem 'fast_jsonapi', '~> 1.5'
 
 # pg_search builds ActiveRecord named scopes that take advantage of PostgreSQL's full text search
 # gem 'pg_search'
