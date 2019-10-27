@@ -24,6 +24,11 @@ GEM
       erubi (~> 1.4)
       rails-dom-testing (~> 2.0)
       rails-html-sanitizer (~> 1.0, >= 1.0.3)
+    active_model_serializers (0.10.10)
+      actionpack (>= 4.1, < 6.1)
+      activemodel (>= 4.1, < 6.1)
+      case_transform (>= 0.2)
+      jsonapi-renderer (>= 0.1.1.beta1, < 0.3)
     activeadmin (1.4.3)
       arbre (>= 1.1.1)
       coffee-rails
@@ -81,6 +86,8 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     byebug (11.0.1)
+    case_transform (0.2)
+      activesupport
     choice (0.2.0)
     code_analyzer (0.4.8)
       sexp_processor
@@ -128,8 +135,6 @@ GEM
       railties (>= 4.2.0)
     faker (1.9.3)
       i18n (>= 0.7)
-    fast_jsonapi (1.5)
-      activesupport (>= 4.2)
     ffi (1.10.0)
     flay (2.12.0)
       erubis (~> 2.7.0)
@@ -151,7 +156,7 @@ GEM
     hashdiff (0.3.8)
     health_check (3.0.0)
       railties (>= 5.0)
-    httparty (0.16.4)
+    httparty (0.17.1)
       mime-types (~> 3.0)
       multi_xml (>= 0.5.2)
     i18n (1.7.0)
@@ -168,6 +173,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     json (2.2.0)
+    jsonapi-renderer (0.2.2)
     jwt (2.1.0)
     kaminari (1.1.1)
       activesupport (>= 4.1.0)
@@ -196,9 +202,9 @@ GEM
     marcel (0.3.3)
       mimemagic (~> 0.3.2)
     method_source (0.9.2)
-    mime-types (3.2.2)
+    mime-types (3.3)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2019.0331)
+    mime-types-data (3.2019.1009)
     mimemagic (0.3.3)
     mini_mime (1.0.1)
     mini_portile2 (2.4.0)
@@ -404,6 +410,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (~> 0.10.9)
   activeadmin (~> 1.4)
   annotate
   awesome_print
@@ -417,9 +424,8 @@ DEPENDENCIES
   dotenv-rails
   factory_bot_rails
   faker
-  fast_jsonapi (~> 1.5)
   health_check (~> 3.0)
-  httparty (~> 0.16)
+  httparty (~> 0.17)
   jwt
   listen (>= 3.0.5, < 3.2)
   pg (>= 0.18, < 2.0)
