@@ -33,7 +33,7 @@ gem 'httparty', '~> 0.16'
 gem 'fast_jsonapi', '~> 1.5'
 
 # Sidekiq
-gem 'sidekiq', '~> 5.2'
+gem 'sidekiq', '< 7'
 gem 'sidekiq-failures'
 # gem 'sidekiq_mailer'
 # gem 'sidekiq-scheduler', '~> 3.0'
