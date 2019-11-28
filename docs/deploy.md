@@ -5,8 +5,8 @@ This is a guide to deploy and connect to your app with [Amazon Elastic Beanstalk
 ## What do you need to deploy or connect
 
 You need the following files to be able to deploy:
-  - `.elasticbeanstalk/config.yml`
-  - The private ssh key (a file with `.pem` extension) indicated in the [.elasticbeanstalk/config.yml](.elasticbeanstalk/config.yml) file under the `global/default_ec2_keyname` key. You need to add this file to `~/.ssh` with 600 permissions (`chmod 600 <file-name>.pem`).
+  - `.elasticbeanstalk/config.yml` inside your project's directory
+  - The private ssh key (a file with `.pem` extension) indicated in the [.elasticbeanstalk/config.yml](.elasticbeanstalk/config.yml) file under the `global/default_ec2_keyname` key. You need to add this file to your `~/.ssh` directory with 600 permissions (`chmod 600 <file-name>.pem`).
   - The `~/.aws/config` file with the following format:
 
     ```

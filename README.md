@@ -23,6 +23,7 @@ Kickoff for Rails API applications.
 
   ```bash
     brew install postgresql
+    brew install redis
   ```
 
 ### 2- Installing Ruby
@@ -35,7 +36,7 @@ Kickoff for Rails API applications.
 
 ### 3- Installing Rails gems
 
-- Install [Bundler](http://bundler.io/).
+- Inside your project's directory install [Bundler](http://bundler.io/).
 
 ```bash
   gem install bundler --no-ri --no-rdoc
@@ -59,7 +60,7 @@ Kickoff for Rails API applications.
 
   - If you are using MacOS: install [Postgres.app](https://postgresapp.com/)
 
-- Create the development database:
+- Create the database role:
 
   - If you are using Ubuntu:
 
@@ -72,9 +73,10 @@ Kickoff for Rails API applications.
 
   - If you are using MacOS:
 
-    Open the Postgres app and run in that terminal:
+    Run in terminal:
 
     ```bash
+      psql -U postgres
       CREATE ROLE "rails-api-bootstrap" LOGIN CREATEDB PASSWORD 'rails-api-bootstrap';
     ```
 
@@ -82,7 +84,7 @@ Kickoff for Rails API applications.
 
 - Check if you have to get a `.env` file, and if you have to, copy it to the root.
 
-- Run in terminal:
+- Create the development database. Run in terminal:
 
 ```bash
   bundle exec rake db:create db:migrate
