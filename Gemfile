@@ -10,7 +10,7 @@ gem 'rails', '~> 5.2.3'
 gem 'pg', '>= 0.18', '< 2.0'
 
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 4.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -45,7 +45,7 @@ gem 'rollbar'
 gem 'jwt'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing, making cross-origin AJAX possible
-gem 'rack-cors', '~> 1.0', require: 'rack/cors'
+gem 'rack-cors', '>= 1.0.4', require: 'rack/cors'
 
 # Use for DoS attacks
 gem 'rack-attack', '~> 5.4'
