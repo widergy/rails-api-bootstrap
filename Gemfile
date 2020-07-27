@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.6.5'
+ruby '2.7.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.2.3'
+gem 'rails', '~> 6.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
@@ -20,10 +20,10 @@ gem 'devise', '~> 4.7'
 gem 'devise-i18n'
 
 # Centralization of locale data collection for Ruby on Rails.
-gem 'rails-i18n', '~> 5.1'
+gem 'rails-i18n', '~> 6.0'
 
 # Active Admin provides an instant CMS backend.
-gem 'activeadmin', '~> 1.4'
+gem 'activeadmin', '~> 2.3'
 # gem 'activeadmin_addons'
 
 # Use for sending request to 3rd party APIs
