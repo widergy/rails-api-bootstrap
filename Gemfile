@@ -168,8 +168,9 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # Code style
-  gem 'rubocop', '~> 0.67.2', require: false
+  gem 'rubocop', '~> 0.88', require: false
   gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', '~> 1.32.0', require: false
 
   # Static analysis for security vulnerabilities

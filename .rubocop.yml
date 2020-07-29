@@ -1,9 +1,7 @@
 # This is the configuration used to check the rubocop source code.
 
-Rails:
-  Enabled: true
-
 AllCops:
+  NewCops: disable
   Exclude:
     - spec/support/spec_helper.rb
     - spec/rails_helper.rb
@@ -12,14 +10,19 @@ AllCops:
     - config/**/*
     - bin/**/*
 
-Documentation:
+Style/Documentation:
   Enabled: false
 
-LineLength:
+Layout/LineLength:
   Max: 99
   Exclude:
     - spec/**/*
     - config/routes.rb
+
+Layout/HashAlignment:
+  Enabled: true
+  Exclude:
+    - lib/tasks/auto_annotate_models.rake
 
 HasAndBelongsToMany:
   Enabled: false
@@ -27,13 +30,16 @@ HasAndBelongsToMany:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
+    - lib/tasks/auto_annotate_models.rake
 
 Style/FrozenStringLiteralComment:
   Enabled: false
 
 # rubocop-rspec custom configurations
 
-require: rubocop-rspec
+require:
+  - rubocop-rspec
+  - rubocop-rails
 
 Naming/VariableNumber:
   EnforcedStyle: snake_case
@@ -49,3 +55,7 @@ RSpec/MultipleExpectations:
 
 RSpec/NestedGroups:
   Max: 3
+
+Rails/RakeEnvironment:
+  Exclude:
+    - lib/tasks/auto_annotate_models.rake
