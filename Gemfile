@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0'
+gem 'rails', '~> 6.1.4'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 
 # Use Puma as the app server
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.5.2'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -80,14 +80,14 @@ gem 'bullet'
 # gem 'safely_block'
 
 # A plugin for versioning Rails based RESTful APIs.
-# gem 'versionist'
+gem 'versionist'
 
 # For handling requests that relies in 3rd party API calls
 # gem 'async_request'
 
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern
 # web app frameworks and ORMs
-# gem 'kaminari'
+gem 'kaminari'
 
 # Role management library with resource scoping
 # gem 'rolify'
@@ -128,7 +128,7 @@ gem 'bullet'
 # gem 'deep_cloneable', '~> 2.4.0'
 
 # Postgres insights
-# gem 'pghero'
+gem 'pghero'
 
 group :test do
   # Rspec helpers
@@ -141,7 +141,10 @@ group :test do
   # Mocking
   gem 'webmock'
   # gem 'timecop', '~> 0.9'
-  # gem 'vcr', '~> 4.0'
+  gem 'vcr', '~> 4.0'
+
+  # Tests performance
+  gem 'test-prof'
 end
 
 group :development, :test do
@@ -168,7 +171,7 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # Code style
-  gem 'rubocop', '~> 0.88', require: false
+  gem 'rubocop', '0.89', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', '~> 1.32.0', require: false
