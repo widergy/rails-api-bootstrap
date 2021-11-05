@@ -1,7 +1,7 @@
 # #!/bin/bash
 
-# EB_APP_DEPLOY_DIR=$(/opt/elasticbeanstalk/bin/get-config platformconfig -k AppDeployDir)
 # EB_APP_USER=$(/opt/elasticbeanstalk/bin/get-config platformconfig -k AppUser)
+# EB_APP_DEPLOY_DIR="/var/app/current"
 # EB_APP_PID_DIR="/var/pids"
 # EB_SUPPORT_DIR="/opt/elasticbeanstalk/support"
 
