@@ -27,12 +27,38 @@ Layout/HashAlignment:
 HasAndBelongsToMany:
   Enabled: false
 
+Metrics/MethodLength:
+  Exclude:
+    - app/services/**/response_mapper.rb
+    - app/services/**/request_mapper.rb
+    - app/services/**/failed_response_mapper.rb
+
+Metrics/AbcSize:
+  Exclude:
+    - app/services/**/response_mapper.rb
+    - app/services/**/request_mapper.rb
+    - app/services/**/failed_response_mapper.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - app/services/**/base.rb
+    - app/services/**/request_mapper.rb
+    - app/services/**/response_mapper.rb
+    - app/services/**/failed_response_mapper.rb
+
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
     - lib/tasks/auto_annotate_models.rake
+    - app/admin/**/*
+    - app/views/admin/**/*
+    - config/routes.rb
+    - db/schema.rb
 
 Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
   Enabled: false
 
 # rubocop-rspec custom configurations
@@ -48,7 +74,7 @@ RSpec/ExampleLength:
   Exclude:
 
 RSpec/AnyInstance:
-  Enabled: true
+  Enabled: false
 
 RSpec/MultipleExpectations:
   Enabled: false

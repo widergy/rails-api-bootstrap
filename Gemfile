@@ -29,6 +29,9 @@ gem 'activeadmin', '~> 2.3'
 # Use for sending request to 3rd party APIs
 gem 'httparty', '~> 0.17'
 
+# For PORO management
+gem 'interactor', '~> 3.0'
+
 # A serializer implementation for Ruby On Rails Objects.
 gem 'active_model_serializers', '~> 0.10.9'
 
@@ -139,12 +142,15 @@ group :test do
   gem 'simplecov', require: false
 
   # Mocking
+  gem 'timecop', '~> 0.9'
   gem 'webmock'
   # gem 'timecop', '~> 0.9'
   gem 'vcr', '~> 4.0'
 
   # Tests performance
   gem 'test-prof'
+
+  gem 'database_cleaner', '~> 1.7.0'
 end
 
 group :development, :test do

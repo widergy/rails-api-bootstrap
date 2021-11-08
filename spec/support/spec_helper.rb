@@ -29,13 +29,19 @@ RSpec.configure do |config|
 
   Faker::Config.random = Random.new(config.seed)
 
-  config.before(:all) do
-    FactoryBot.reload
+  config.before(:suite) do
+    DatabaseCleaner.strategy = :transaction
+    DatabaseCleaner.clean_with(:truncation)
   end
 
-  # config.after(:each) do
-  #   Timecop.return
-  # end
+  config.before(:each) do
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+    Timecop.return
+  end
 
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
