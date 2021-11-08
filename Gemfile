@@ -162,7 +162,7 @@ group :development, :test do
 
   # RSpec testing framework for Ruby on Rails as a drop-in alternative to its default testing
   # framework, Minitest.
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', '~> 4.0'
 
   # Awesome Print is a Ruby library that pretty prints Ruby objects in full color exposing their
   # internal structure with proper indentation
