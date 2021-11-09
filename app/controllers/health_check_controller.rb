@@ -12,7 +12,7 @@ class HealthCheckController < HealthCheck::HealthCheckController
     @utility_response = utility.utility_service.health_check
     return super if @utility_response.code == 200
 
-    render_failed_health_check
+    render_failed_utility_health_check
   end
 
   private
@@ -26,7 +26,20 @@ class HealthCheckController < HealthCheck::HealthCheckController
   end
 
   def render_failed_health_check
+    @utility_error = false
+    @utility_disabled = true
+    msg = "health_check failed: #{utility.name} API is disabled."
+    # Log a single line as some uptime checkers only record that it failed, not the text returned
+    logger&.info msg
+    send_response(
+      msg, HealthCheck.http_status_for_error_text, HealthCheck.http_status_for_error_object,
+      display_message: utility.display_downtime_message
+    )
+  end
+
+  def render_failed_utility_health_check
     @utility_error = true
+    @utility_disabled = false
     msg = "health_check failed: #{utility.name} API is down."
     # Log a single line as some uptime checkers only record that it failed, not the text returned
     logger&.info msg
@@ -80,6 +93,7 @@ class HealthCheckController < HealthCheck::HealthCheckController
 
   def item_error_name
     return 'Health check failed: utility error' if @utility_error
+    return 'Health check failed: utility disabled' if @utility_disabled
 
     'Health check failed: internal error'
   end
