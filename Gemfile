@@ -54,7 +54,7 @@ gem 'rack-cors', '>= 1.0.4', require: 'rack/cors'
 gem 'rack-attack', '~> 5.4'
 
 # Simple health check of Rails app for use with uptime checking sites
-gem 'health_check', '~> 3.0'
+gem 'health_check', '3.0'
 
 # Use for generate a Entity-Relationship diagram based on the application's Active Record models
 gem 'rails-erd'
