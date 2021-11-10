@@ -67,6 +67,9 @@ require:
   - rubocop-rspec
   - rubocop-rails
 
+RSpec/FilePath:
+  Enabled: false
+
 Naming/VariableNumber:
   EnforcedStyle: snake_case
 
