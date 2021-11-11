@@ -36,7 +36,7 @@ gem 'interactor', '~> 3.0'
 gem 'active_model_serializers', '~> 0.10.9'
 
 # Sidekiq
-gem 'sidekiq', '< 7'
+gem 'sidekiq', '<6'
 gem 'sidekiq-failures'
 # gem 'sidekiq_mailer'
 # gem 'sidekiq-scheduler', '~> 3.0'
@@ -86,7 +86,7 @@ gem 'bullet'
 gem 'versionist'
 
 # For handling requests that relies in 3rd party API calls
-# gem 'async_request'
+# gem 'async_request', github: 'icapuccio/async-requests', branch: 'version-0-9'
 
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern
 # web app frameworks and ORMs

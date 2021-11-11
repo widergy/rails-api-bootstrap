@@ -242,6 +242,8 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
+    rack-protection (2.1.0)
+      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.1.4.1)
@@ -295,7 +297,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.5.1)
+    redis (4.1.4)
     reek (6.0.6)
       kwalify (~> 0.7.0)
       parser (~> 3.0.0)
@@ -368,10 +370,11 @@ GEM
     sexp_processor (4.16.0)
     shoulda-matchers (4.5.1)
       activesupport (>= 4.2.0)
-    sidekiq (6.2.2)
-      connection_pool (>= 2.2.2)
+    sidekiq (5.2.9)
+      connection_pool (~> 2.2, >= 2.2.2)
       rack (~> 2.0)
-      redis (>= 4.2.0)
+      rack-protection (>= 1.5.0)
+      redis (>= 3.3.5, < 4.2)
     sidekiq-failures (1.0.1)
       sidekiq (>= 4.0.0)
     simplecov (0.21.2)
@@ -469,7 +472,7 @@ DEPENDENCIES
   rubocop-rspec (~> 1.32.0)
   rubycritic
   shoulda-matchers (~> 4.0)
-  sidekiq (< 7)
+  sidekiq (< 6)
   sidekiq-failures
   simplecov
   spring
