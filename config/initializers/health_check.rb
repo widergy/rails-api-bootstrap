@@ -42,8 +42,8 @@ HealthCheck.setup do |config|
   # You can define multiple tests under the same name - they will be run one after the other.
   # config.add_custom_check('sidekiq-queue') do
   #   default_queue = Sidekiq::Queue.new
-  #   queue_size = default_queue.size
-  #   queue_latency = default_queue.latency
+  #   queue_size = ENV.fetch('SIDEKIQ_QUEUE_SIZE', default_queue.size)
+  #   queue_latency = ENV.fetch('SIDEKIQ_QUEUE_LATENCY', default_queue.latency)
   #   queue_degraded = queue_size > 100 && queue_latency > 5
   #   queue_degraded ? "There are #{queue_size} Sidekiq jobs enqueued with a latency of #{queue_latency} secs." : ''
   # end
