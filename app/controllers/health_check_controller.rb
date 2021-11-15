@@ -6,7 +6,7 @@ class HealthCheckController < HealthCheck::HealthCheckController
 
   def index
     return super if utility.blank?
-    return render_failed_health_check unless utility.active
+    return render_failed_utility_inactive unless utility.active
     return super if utility.health_check_url.blank?
 
     @utility_response = utility.utility_service.health_check
@@ -25,7 +25,7 @@ class HealthCheckController < HealthCheck::HealthCheckController
     @utility ||= Utility.find_by!(code: utility_code)
   end
 
-  def render_failed_health_check
+  def render_failed_utility_inactive
     @utility_error = false
     @utility_disabled = true
     msg = "health_check failed: #{utility.name} API is disabled."
