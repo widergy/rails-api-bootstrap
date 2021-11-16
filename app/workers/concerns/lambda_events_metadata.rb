@@ -1,6 +1,5 @@
 module LambdaEventsMetadata
   extend ActiveSupport::Concern
-
   # def payment_identification_metadata(client_number, response_body, worker_params)
   #   {
   #     client_number: client_number,

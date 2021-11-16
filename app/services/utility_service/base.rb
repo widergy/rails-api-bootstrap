@@ -1,7 +1,6 @@
 module UtilityService
   class Base
     include ServiceBaseHelper
-    include PaymentGateways
 
     attr_reader :utility
 
