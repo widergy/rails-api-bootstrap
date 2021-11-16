@@ -1,5 +1,5 @@
 # module Api
-#   class ApiBaseController < ApplicationController
+#   class ApiBaseController < ApiController
 #     before_action :current_user, :validate_utility, :authenticate_request
 
 #     def current_user
