@@ -70,6 +70,15 @@ require:
 Naming/VariableNumber:
   EnforcedStyle: snake_case
 
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
 RSpec/ExampleLength:
   Exclude:
 
