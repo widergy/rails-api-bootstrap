@@ -26,7 +26,6 @@ class HealthCheckController < HealthCheck::HealthCheckController
   end
 
   def render_failed_utility_inactive
-    @utility_error = false
     @utility_disabled = true
     msg = "health_check failed: #{utility.name} API is disabled."
     # Log a single line as some uptime checkers only record that it failed, not the text returned
@@ -39,7 +38,6 @@ class HealthCheckController < HealthCheck::HealthCheckController
 
   def render_failed_utility_health_check
     @utility_error = true
-    @utility_disabled = false
     msg = "health_check failed: #{utility.name} API is down."
     # Log a single line as some uptime checkers only record that it failed, not the text returned
     logger&.info msg
