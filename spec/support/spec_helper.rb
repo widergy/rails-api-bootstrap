@@ -29,17 +29,11 @@ RSpec.configure do |config|
 
   Faker::Config.random = Random.new(config.seed)
 
-  config.before(:suite) do
-    DatabaseCleaner.strategy = :transaction
-    DatabaseCleaner.clean_with(:truncation)
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
+  config.before(:all) do
+    FactoryBot.reload
   end
 
   config.after(:each) do
-    DatabaseCleaner.clean
     Timecop.return
   end
 
