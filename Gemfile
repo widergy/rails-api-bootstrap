@@ -4,13 +4,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 6.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 
 # Use Puma as the app server
-gem 'puma', '~> 5.5.2'
+gem 'puma', '~> 5.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -36,7 +36,7 @@ gem 'interactor', '~> 3.0'
 gem 'active_model_serializers', '~> 0.10.9'
 
 # Sidekiq
-gem 'sidekiq', '<6'
+gem 'sidekiq', '<7'
 gem 'sidekiq-failures'
 # gem 'sidekiq_mailer'
 # gem 'sidekiq-scheduler', '~> 3.0'
@@ -142,15 +142,13 @@ group :test do
   gem 'simplecov', require: false
 
   # Mocking
-  gem 'timecop', '~> 0.9'
   gem 'webmock'
-  # gem 'timecop', '~> 0.9'
+  gem 'timecop', '~> 0.9'
   gem 'vcr'
 
   # Tests performance
   gem 'test-prof'
 
-  gem 'database_cleaner', '~> 1.7.0'
 end
 
 group :development, :test do

@@ -114,7 +114,6 @@ GEM
     crack (0.4.5)
       rexml
     crass (1.0.6)
-    database_cleaner (1.7.0)
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     devise (4.8.0)
@@ -242,8 +241,6 @@ GEM
       rack (>= 1.0, < 3)
     rack-cors (1.1.1)
       rack (>= 2.0.0)
-    rack-protection (2.1.0)
-      rack
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (6.1.4.1)
@@ -297,7 +294,7 @@ GEM
     rb-fsevent (0.11.0)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    redis (4.1.4)
+    redis (4.5.1)
     reek (6.0.6)
       kwalify (~> 0.7.0)
       parser (~> 3.0.0)
@@ -370,11 +367,10 @@ GEM
     sexp_processor (4.16.0)
     shoulda-matchers (5.0.0)
       activesupport (>= 5.2.0)
-    sidekiq (5.2.9)
-      connection_pool (~> 2.2, >= 2.2.2)
+    sidekiq (6.3.1)
+      connection_pool (>= 2.2.2)
       rack (~> 2.0)
-      rack-protection (>= 1.5.0)
-      redis (>= 3.3.5, < 4.2)
+      redis (>= 4.2.0)
     sidekiq-failures (1.0.1)
       sidekiq (>= 4.0.0)
     simplecov (0.21.2)
@@ -441,7 +437,6 @@ DEPENDENCIES
   brakeman
   bullet
   byebug
-  database_cleaner (~> 1.7.0)
   devise (~> 4.7)
   devise-i18n
   dotenv-rails
@@ -456,10 +451,10 @@ DEPENDENCIES
   pg (>= 0.18, < 2.0)
   pghero
   pry-byebug
-  puma (~> 5.5.2)
+  puma (~> 5.5)
   rack-attack (~> 6)
   rack-cors (>= 1.0.4)
-  rails (~> 6.1.4)
+  rails (~> 6.1)
   rails-erd
   rails-i18n (~> 6.0)
   rails_best_practices
@@ -472,7 +467,7 @@ DEPENDENCIES
   rubocop-rspec (~> 1.32.0)
   rubycritic
   shoulda-matchers
-  sidekiq (< 6)
+  sidekiq (< 7)
   sidekiq-failures
   simplecov
   spring

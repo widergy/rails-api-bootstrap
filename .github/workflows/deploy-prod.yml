@@ -18,8 +18,6 @@ jobs:
       DB_USERNAME: rails-api-bootstrap
       DB_PASSWORD: ""
       REDIS_HOST: redis
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_REGION_PUSH: ${{ secrets.WIDERGYPROD_AWS_REGION_PUSH }}
       AWS_ACCESS_KEY_ID: ${{ secrets.WIDERGYPROD_AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.WIDERGYPROD_AWS_SECRET_ACCESS_KEY }}
 
@@ -112,4 +110,4 @@ jobs:
           aws-region: us-east-1
       - name: Deploy to AWS ElasticBeastalk
         run:
-          eb deploy meter-reading-api-e01
+          eb deployrails-api-bootstrap-e01
