@@ -4,13 +4,13 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 ruby '2.7.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.4'
+gem 'rails', '~> 6.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 
 # Use Puma as the app server
-gem 'puma', '~> 5.5.2'
+gem 'puma', '~> 5.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -36,7 +36,7 @@ gem 'interactor', '~> 3.0'
 gem 'active_model_serializers', '~> 0.10.9'
 
 # Sidekiq
-gem 'sidekiq', '<6'
+gem 'sidekiq', '<7'
 gem 'sidekiq-failures'
 # gem 'sidekiq_mailer'
 # gem 'sidekiq-scheduler', '~> 3.0'
@@ -51,7 +51,7 @@ gem 'jwt'
 gem 'rack-cors', '>= 1.0.4', require: 'rack/cors'
 
 # Use for DoS attacks
-gem 'rack-attack', '~> 5.4'
+gem 'rack-attack', '~> 6'
 
 # Simple health check of Rails app for use with uptime checking sites
 gem 'health_check', '3.0'
@@ -136,21 +136,19 @@ gem 'pghero'
 group :test do
   # Rspec helpers
   gem 'rspec-sidekiq'
-  gem 'shoulda-matchers', '~> 4.0'
+  gem 'shoulda-matchers'
 
   # Code coverage
   gem 'simplecov', require: false
 
   # Mocking
-  gem 'timecop', '~> 0.9'
   gem 'webmock'
-  # gem 'timecop', '~> 0.9'
-  gem 'vcr', '~> 4.0'
+  gem 'timecop', '~> 0.9'
+  gem 'vcr'
 
   # Tests performance
   gem 'test-prof'
 
-  gem 'database_cleaner', '~> 1.7.0'
 end
 
 group :development, :test do
@@ -162,7 +160,7 @@ group :development, :test do
 
   # RSpec testing framework for Ruby on Rails as a drop-in alternative to its default testing
   # framework, Minitest.
-  gem 'rspec-rails', '~> 4.0'
+  gem 'rspec-rails', '~> 5.0'
 
   # Awesome Print is a Ruby library that pretty prints Ruby objects in full color exposing their
   # internal structure with proper indentation

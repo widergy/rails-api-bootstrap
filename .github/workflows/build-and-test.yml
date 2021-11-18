@@ -6,6 +6,7 @@ on:
   push:
     branches:
       - master
+      - /release-.*/
 
 jobs:
   build_and_test:
@@ -19,8 +20,6 @@ jobs:
       DB_USERNAME: rails-api-bootstrap
       DB_PASSWORD: ""
       REDIS_HOST: redis
-      AWS_REGION: ${{ secrets.AWS_REGION }}
-      AWS_REGION_PUSH: ${{ secrets.WIDERGYDEV_AWS_REGION_PUSH }}
       AWS_ACCESS_KEY_ID: ${{ secrets.WIDERGYDEV_AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.WIDERGYDEV_AWS_SECRET_ACCESS_KEY }}
 
