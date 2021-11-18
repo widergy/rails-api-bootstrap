@@ -5,7 +5,7 @@ class ErrorResponseBuilder
   #   error = ErrorResponseBuilder.new(:unprocessable_entity, utility).add_error(:invalid_token)
   #   [error.status, error.to_h]
   # Based on:
-  #   https://medium.com/@stevenpetryk/providing-useful-error-responses-in-a-rails-api-24c004b31a2e
+  #   https://stevenpetryk.com/blog/better-rails-api-errors/
   def initialize(status = nil, utility = nil)
     @status = status_code(status)
     @payload = { errors: [] }

@@ -16,12 +16,6 @@ module UtilityService
       }
     end
 
-    def process_payment(_response_code, response_body)
-      {
-        message: response_body['mensaje']
-      }
-    end
-
     private
 
     def fetch_response_message(response_body)

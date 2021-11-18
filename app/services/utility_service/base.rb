@@ -41,14 +41,6 @@ module UtilityService
     #   )
     # end
 
-    # def process_payment(params)
-    #   process_response(
-    #     post(@utility.payment_url,
-    #          body: body_for(:process_payment, params)),
-    #     success_response_method: :process_payment, failed_response_method: :default_response
-    #   )
-    # end
-
     private
 
     def build_utility_service_methods
