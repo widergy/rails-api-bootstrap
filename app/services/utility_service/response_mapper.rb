@@ -1,6 +1,5 @@
 module UtilityService
   class ResponseMapper
-    include DateHelpers
     def initialize(utility = nil)
       @utility = utility
     end

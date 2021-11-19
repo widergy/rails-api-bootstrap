@@ -41,6 +41,9 @@ require 'webmock/rspec'
 #   c.allow_http_connections_when_no_cassette = false
 # end
 
+# Let It Be
+require 'test_prof/recipes/rspec/let_it_be'
+
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
     with.test_framework :rspec

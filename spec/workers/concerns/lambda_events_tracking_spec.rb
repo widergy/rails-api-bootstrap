@@ -10,9 +10,9 @@ require 'rails_helper'
 # end
 
 # describe LambdaEventsTracking do
-#   let(:consumer) { create(:consumer) }
+#   let(:consumer) { double(:consumer) }
 #   let(:model) { 'Consumer' }
-#   let(:client_id) { '123' }
+#   let(:client_id) { 8 }
 #   let(:dummy_instance) { LambdaTrackingDummyClass.new(model, client_id) }
 #   let(:response_code) { [200, 202].sample }
 
@@ -23,9 +23,15 @@ require 'rails_helper'
 #         channel: 'web'
 #       }
 #     end
+#     let(:utility) {double('utility')}
 
 #     before do
+#       allow(dummy_instance).to receive(:utility_lambda).and_return(utility)
+#       allow(utility).to receive(:id).and_return(8)
+#       allow(utility).to receive(:code).and_return(8)
+#       allow(utility).to receive(:name).and_return('utility name')
 #       allow(dummy_instance).to receive(:track_event).and_raise(StandardError)
+#       allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)
 #     end
 
 #     it 'calls lambda event tracking error method' do
@@ -42,6 +48,7 @@ require 'rails_helper'
 #         channel: 'web'
 #       }
 #     end
+#     let(:utility) {double('utility')}
 
 #     context 'when calling an event tracking with invalid params' do
 #       context 'when missing a required param' do
@@ -57,6 +64,10 @@ require 'rails_helper'
 #       before do
 #         allow(dummy_instance).to receive(:track_event)
 #           .and_return(OpenStruct.new(code: response_code))
+#         allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)
+#         allow(utility).to receive(:id).and_return(8)
+#         allow(utility).to receive(:code).and_return(8)
+#         allow(utility).to receive(:name).and_return('utility name')
 #       end
 
 #       context 'with client in context' do
@@ -95,7 +106,6 @@ require 'rails_helper'
 #       context 'without client in context' do
 #         let(:model) { nil }
 #         let(:client_id) { nil }
-#         let(:utility) { create(:utility) }
 #         let(:params) { base_params.merge(utility: utility) }
 
 #         context 'when request is sucessful' do

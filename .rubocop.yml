@@ -94,6 +94,12 @@ RSpec/NestedGroups:
 RSpec/MessageSpies:
   EnforcedStyle: receive
 
+RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
 Rails/RakeEnvironment:
   Exclude:
     - lib/tasks/auto_annotate_models.rake
