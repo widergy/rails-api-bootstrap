@@ -85,6 +85,9 @@ RSpec/MultipleExpectations:
 RSpec/NestedGroups:
   Max: 3
 
+RSpec/NamedSubject:
+  Enabled: false
+
 Rails/RakeEnvironment:
   Exclude:
     - lib/tasks/auto_annotate_models.rake
