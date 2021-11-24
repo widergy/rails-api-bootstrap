@@ -5,3 +5,6 @@ Rails.application.routes.draw do
   match '*a', to: 'errors#routing_error', via: :all
   match '/', to: 'errors#routing_error', via: :all
 end
+
+# == Route Map
+#

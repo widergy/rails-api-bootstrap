@@ -1,16 +1,16 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '2.7.4'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.0'
+gem 'rails', '~> 6.1'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 
 # Use Puma as the app server
-gem 'puma', '~> 4.3'
+gem 'puma', '~> 5.5'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
@@ -29,11 +29,14 @@ gem 'activeadmin', '~> 2.3'
 # Use for sending request to 3rd party APIs
 gem 'httparty', '~> 0.17'
 
+# For PORO management
+gem 'interactor', '~> 3.0'
+
 # A serializer implementation for Ruby On Rails Objects.
 gem 'active_model_serializers', '~> 0.10.9'
 
 # Sidekiq
-gem 'sidekiq', '< 7'
+gem 'sidekiq', '<7'
 gem 'sidekiq-failures'
 # gem 'sidekiq_mailer'
 # gem 'sidekiq-scheduler', '~> 3.0'
@@ -48,10 +51,10 @@ gem 'jwt'
 gem 'rack-cors', '>= 1.0.4', require: 'rack/cors'
 
 # Use for DoS attacks
-gem 'rack-attack', '~> 5.4'
+gem 'rack-attack', '~> 6'
 
 # Simple health check of Rails app for use with uptime checking sites
-gem 'health_check', '~> 3.0'
+gem 'health_check', '3.0'
 
 # Use for generate a Entity-Relationship diagram based on the application's Active Record models
 gem 'rails-erd'
@@ -80,14 +83,14 @@ gem 'bullet'
 # gem 'safely_block'
 
 # A plugin for versioning Rails based RESTful APIs.
-# gem 'versionist'
+gem 'versionist'
 
 # For handling requests that relies in 3rd party API calls
-# gem 'async_request'
+# gem 'async_request', github: 'icapuccio/async-requests', branch: 'version-0-9'
 
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern
 # web app frameworks and ORMs
-# gem 'kaminari'
+gem 'kaminari'
 
 # Role management library with resource scoping
 # gem 'rolify'
@@ -128,20 +131,24 @@ gem 'bullet'
 # gem 'deep_cloneable', '~> 2.4.0'
 
 # Postgres insights
-# gem 'pghero'
+gem 'pghero'
 
 group :test do
   # Rspec helpers
   gem 'rspec-sidekiq'
-  gem 'shoulda-matchers', '~> 4.0'
+  gem 'shoulda-matchers'
 
   # Code coverage
   gem 'simplecov', require: false
 
   # Mocking
   gem 'webmock'
-  # gem 'timecop', '~> 0.9'
-  # gem 'vcr', '~> 4.0'
+  gem 'timecop', '~> 0.9'
+  gem 'vcr'
+
+  # Tests performance
+  gem 'test-prof'
+
 end
 
 group :development, :test do
@@ -153,7 +160,7 @@ group :development, :test do
 
   # RSpec testing framework for Ruby on Rails as a drop-in alternative to its default testing
   # framework, Minitest.
-  gem 'rspec-rails', '~> 3.8'
+  gem 'rspec-rails', '~> 5.0'
 
   # Awesome Print is a Ruby library that pretty prints Ruby objects in full color exposing their
   # internal structure with proper indentation
@@ -168,7 +175,7 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # Code style
-  gem 'rubocop', '~> 0.88', require: false
+  gem 'rubocop', '0.89', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', '~> 1.32.0', require: false

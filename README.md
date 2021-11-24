@@ -39,7 +39,7 @@ Kickoff for Rails API applications.
 - Inside your project's directory install [Bundler](http://bundler.io/).
 
 ```bash
-  gem install bundler --no-ri --no-rdoc
+  gem install bundler --no-document
   rbenv rehash
 ```
 - Install all the gems included in the project.
@@ -131,7 +131,7 @@ And then execute `pry -r ./config/environment` instead of `rails console`.
 - For running code style analyzer:
 
 ```bash
-  bundle exec rubocop app spec -R
+  bundle exec rubocop app spec
 ```
 
 #### Git pre push hook
