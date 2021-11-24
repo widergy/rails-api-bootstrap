@@ -47,6 +47,10 @@ module ApiResponseHelpers
     "User - ID: #{user&.id}, EMAIL: #{user&.email}"
   end
 
+  def account_log_message(account)
+    "Account - ID: #{account&.id}, CLIENT_NUMBER: #{account&.client_number}"
+  end
+
   def entity_log_message(entity)
     "#{entity&.class&.name} - ID: #{entity&.id}\n"
   end

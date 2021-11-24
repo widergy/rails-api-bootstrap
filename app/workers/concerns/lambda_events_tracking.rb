@@ -66,7 +66,7 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
       event: event,
       channel: channel,
       metadata: options[:metadata],
-      app: options[:app_name] || ApiAnalytics::AppName::VIRTUAL_OFFICE,
+      app: options[:app_name] || ApiAnalytics::AppName::RAILS_API_BOOTSTRAP,
       timestamp: now
     }.to_json
   end

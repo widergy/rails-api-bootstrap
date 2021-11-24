@@ -1,20 +1,19 @@
 module ApiAnalytics
-  # ANONYMOUS_USER = 'anonymous'.freeze
-  # ENTITIES_NAME = {
-  #   'adminuser' => 'usuario administrador',
-  #   'user' => 'usuario',
-  #   'consumer' => 'usuario consumidor',
-  #   ANONYMOUS_USER => 'usuario'
-  # }.freeze
+  ANONYMOUS_USER = 'anonymous'.freeze
+  ENTITIES_NAME = {
+    'adminuser' => 'usuario administrador',
+    'user' => 'usuario',
+    ANONYMOUS_USER => 'usuario'
+  }.freeze
 
-  # module AppName
-  #   VIRTUAL_OFFICE = 'Oficina Virtual'.freeze
-  # end
+  module AppName
+    RAILS_API_BOOTSTRAP = 'Rails-Api-Bootstrap'.freeze
+  end
 
-  # module EventsType
-  #   ENTITY_ACTION_EVENT = 'entity_action'.freeze
-  #   UTILITY_REQUEST_EVENT = 'utility_request'.freeze
-  # end
+  module EventsType
+    ENTITY_ACTION_EVENT = 'entity_action'.freeze
+    UTILITY_REQUEST_EVENT = 'utility_request'.freeze
+  end
 
   # module Events
   #   FORM_RESPONSE_CREATION = 'form_response_creation'.freeze
