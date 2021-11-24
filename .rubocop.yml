@@ -67,6 +67,9 @@ require:
   - rubocop-rspec
   - rubocop-rails
 
+RSpec/FilePath:
+  Enabled: false
+
 Naming/VariableNumber:
   EnforcedStyle: snake_case
 
@@ -95,6 +98,9 @@ RSpec/MessageSpies:
   EnforcedStyle: receive
 
 RSpec/VerifiedDoubles:
+  Enabled: false
+
+RSpec/NamedSubject:
   Enabled: false
 
 RSpec/NamedSubject:
