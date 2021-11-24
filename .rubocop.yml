@@ -103,9 +103,6 @@ RSpec/VerifiedDoubles:
 RSpec/NamedSubject:
   Enabled: false
 
-RSpec/NamedSubject:
-  Enabled: false
-
 Rails/RakeEnvironment:
   Exclude:
     - lib/tasks/auto_annotate_models.rake
