@@ -73,8 +73,17 @@ RSpec/FilePath:
 Naming/VariableNumber:
   EnforcedStyle: snake_case
 
+Layout/EmptyLineAfterGuardClause:
+  Enabled: false
+
+Naming/MemoizedInstanceVariableName:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
+
 RSpec/ExampleLength:
-  Exclude:
+  Enabled: false
 
 RSpec/AnyInstance:
   Enabled: false
@@ -83,7 +92,13 @@ RSpec/MultipleExpectations:
   Enabled: false
 
 RSpec/NestedGroups:
-  Max: 3
+  Max: 10
+
+RSpec/MessageSpies:
+  EnforcedStyle: receive
+
+RSpec/VerifiedDoubles:
+  Enabled: false
 
 RSpec/NamedSubject:
   Enabled: false
