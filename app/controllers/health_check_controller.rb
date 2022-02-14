@@ -27,22 +27,21 @@ class HealthCheckController < HealthCheck::HealthCheckController
 
   def render_failed_utility_inactive
     @utility_disabled = true
-    msg = "health_check failed: #{utility.name} API is disabled."
-    # Log a single line as some uptime checkers only record that it failed, not the text returned
-    logger&.info msg
-    send_response(
-      msg, HealthCheck.http_status_for_error_text, HealthCheck.http_status_for_error_object,
-      display_message: utility.display_downtime_message
-    )
+    message = "health_check failed: #{utility.name} API is disabled."
+    process_response(message)
   end
 
   def render_failed_utility_health_check
     @utility_error = true
-    msg = "health_check failed: #{utility.name} API is down."
+    message = "health_check failed: #{utility.name} API is down."
+    process_response(message)
+  end
+  
+  def process_response(message)
     # Log a single line as some uptime checkers only record that it failed, not the text returned
-    logger&.info msg
+    logger&.info message
     send_response(
-      msg, HealthCheck.http_status_for_error_text, HealthCheck.http_status_for_error_object,
+      message, HealthCheck.http_status_for_error_text, HealthCheck.http_status_for_error_object,
       display_message: utility.display_downtime_message
     )
   end
@@ -55,10 +54,6 @@ class HealthCheckController < HealthCheck::HealthCheckController
 
   def render_nothing_not_found
     head :not_found
-  end
-
-  def update_utility_active(value)
-    utility.update(active: value)
   end
 
   def send_response(msg, text_status, obj_status, display_message: nil)
