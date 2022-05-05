@@ -109,4 +109,3 @@ Rails/RakeEnvironment:
 
 RSpec/MultipleMemoizedHelpers:
   Max: 20
-  
