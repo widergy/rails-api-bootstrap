@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.4'
+ruby '3.1.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.1'
@@ -92,6 +92,9 @@ gem 'versionist'
 # web app frameworks and ORMs
 gem 'kaminari'
 
+# Simple Mail Transfer Protocol client library for Ruby.
+gem 'net-smtp'
+
 # Role management library with resource scoping
 # gem 'rolify'
 
@@ -142,13 +145,12 @@ group :test do
   gem 'simplecov', require: false
 
   # Mocking
-  gem 'webmock'
   gem 'timecop', '~> 0.9'
   gem 'vcr'
+  gem 'webmock'
 
   # Tests performance
   gem 'test-prof'
-
 end
 
 group :development, :test do
@@ -160,7 +162,7 @@ group :development, :test do
 
   # RSpec testing framework for Ruby on Rails as a drop-in alternative to its default testing
   # framework, Minitest.
-  gem 'rspec-rails', '~> 5.0'
+  gem 'rspec-rails', '> 5.0'
 
   # Awesome Print is a Ruby library that pretty prints Ruby objects in full color exposing their
   # internal structure with proper indentation
@@ -175,10 +177,10 @@ group :development, :test do
   gem 'dotenv-rails'
 
   # Code style
-  gem 'rubocop', '0.89', require: false
+  gem 'rubocop', '1.28.2', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
-  gem 'rubocop-rspec', '~> 1.32.0', require: false
+  gem 'rubocop-rspec', require: false
 
   # Static analysis for security vulnerabilities
   gem 'brakeman', require: false

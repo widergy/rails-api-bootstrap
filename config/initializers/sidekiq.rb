@@ -15,7 +15,7 @@ Sidekiq.configure_client do |config|
   config.redis = { url: url }
 end
 
-Sidekiq.default_worker_options = { 'backtrace' => true }
+Sidekiq.default_job_options = { 'backtrace' => true }
 
 unless Rails.env.development?
   Sidekiq::Web.use Rack::Auth::Basic do |username, password|

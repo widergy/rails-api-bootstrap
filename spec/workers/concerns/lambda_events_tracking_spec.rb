@@ -37,7 +37,7 @@ describe LambdaEventsTracking do
     it 'calls lambda event tracking error method' do
       expect(dummy_instance).to receive(:lambda_event_tracking_error).once
                                                                      .and_call_original
-      dummy_instance.track_entity_event(params)
+      dummy_instance.track_entity_event(**params)
     end
   end
 
@@ -82,11 +82,11 @@ describe LambdaEventsTracking do
             expect(dummy_instance).to receive(:log_and_report_invalid_response).exactly(0)
                                                                                .times
                                                                                .and_call_original
-            dummy_instance.track_entity_event(base_params)
+            dummy_instance.track_entity_event(**base_params)
           end
 
           it 'builds the proper body' do
-            dummy_instance.track_entity_event(base_params)
+            dummy_instance.track_entity_event(**base_params)
             expect(JSON.parse(dummy_instance.send(:track_entity_event_body, base_params[:event],
                                                   base_params[:channel]),
                               symbolize_names: true).keys).to contain_exactly(*expected_keys)
@@ -99,7 +99,7 @@ describe LambdaEventsTracking do
           it 'does call the log and report' do
             expect(dummy_instance).to receive(:log_and_report_invalid_response).once
                                                                                .and_call_original
-            dummy_instance.track_entity_event(base_params)
+            dummy_instance.track_entity_event(**base_params)
           end
         end
       end
@@ -107,7 +107,7 @@ describe LambdaEventsTracking do
       context 'without client in context' do
         let(:model) { nil }
         let(:client_id) { nil }
-        let(:params) { base_params.merge(utility: utility) }
+        let(:params) { base_params.merge(utility:) }
 
         context 'when request is sucessful' do
           let(:expected_keys) do
@@ -119,11 +119,11 @@ describe LambdaEventsTracking do
             expect(dummy_instance).to receive(:log_and_report_invalid_response).exactly(0)
                                                                                .times
                                                                                .and_call_original
-            dummy_instance.track_entity_event(params)
+            dummy_instance.track_entity_event(**params)
           end
 
           it 'builds the proper body' do
-            dummy_instance.track_entity_event(params)
+            dummy_instance.track_entity_event(**params)
             expect(JSON.parse(dummy_instance.send(:track_entity_event_body, base_params[:event],
                                                   base_params[:channel]),
                               symbolize_names: true).keys).to contain_exactly(*expected_keys)
@@ -136,7 +136,7 @@ describe LambdaEventsTracking do
           it 'does call the log and report' do
             expect(dummy_instance).to receive(:log_and_report_invalid_response).once
                                                                                .and_call_original
-            dummy_instance.track_entity_event(params)
+            dummy_instance.track_entity_event(**params)
           end
         end
       end
@@ -153,11 +153,11 @@ describe LambdaEventsTracking do
           expect(dummy_instance).to receive(:log_and_report_invalid_response).exactly(0)
                                                                              .times
                                                                              .and_call_original
-          dummy_instance.track_entity_event(base_params)
+          dummy_instance.track_entity_event(**base_params)
         end
 
         it 'builds the proper body' do
-          dummy_instance.track_entity_event(base_params)
+          dummy_instance.track_entity_event(**base_params)
           expect(JSON.parse(dummy_instance.send(:track_entity_event_body, base_params[:event],
                                                 base_params[:channel]),
                             symbolize_names: true).keys).to contain_exactly(*expected_keys)
@@ -201,7 +201,7 @@ describe LambdaEventsTracking do
         let(:params) { base_params.merge(http_method: 'invalid http_method value') }
 
         it 'has the errors array present' do
-          dummy_instance.track_request_event(params)
+          dummy_instance.track_request_event(**params)
           expect(dummy_instance.errors).to be_present
         end
 
@@ -209,7 +209,7 @@ describe LambdaEventsTracking do
           expect(dummy_instance).to receive(:track_event).exactly(0)
                                                          .times
                                                          .and_call_original
-          dummy_instance.track_request_event(params)
+          dummy_instance.track_request_event(**params)
         end
       end
 
@@ -217,7 +217,7 @@ describe LambdaEventsTracking do
         let(:params) { base_params.merge(failed: 'invalid failed value') }
 
         it 'has the errors array present' do
-          dummy_instance.track_request_event(params)
+          dummy_instance.track_request_event(**params)
           expect(dummy_instance.errors).to be_present
         end
 
@@ -225,7 +225,7 @@ describe LambdaEventsTracking do
           expect(dummy_instance).to receive(:track_event).exactly(0)
                                                          .times
                                                          .and_call_original
-          dummy_instance.track_request_event(params)
+          dummy_instance.track_request_event(**params)
         end
       end
     end
@@ -234,7 +234,7 @@ describe LambdaEventsTracking do
       let(:utility) { double('utility') }
       let(:model) { nil }
       let(:client_id) { nil }
-      let(:params) { base_params.merge(utility: utility) }
+      let(:params) { base_params.merge(utility:) }
 
       before do
         allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)
@@ -255,11 +255,11 @@ describe LambdaEventsTracking do
           expect(dummy_instance).to receive(:log_and_report_invalid_response).exactly(0)
                                                                              .times
                                                                              .and_call_original
-          dummy_instance.track_request_event(params)
+          dummy_instance.track_request_event(**params)
         end
 
         it 'builds the proper body' do
-          dummy_instance.track_request_event(params)
+          dummy_instance.track_request_event(**params)
           expect(JSON.parse(dummy_instance.send(:track_request_event_body, base_params[:url],
                                                 base_params[:http_method],
                                                 base_params[:failed],
@@ -274,7 +274,7 @@ describe LambdaEventsTracking do
         it 'does call the log and report' do
           expect(dummy_instance).to receive(:log_and_report_invalid_response).once
                                                                              .and_call_original
-          dummy_instance.track_request_event(params)
+          dummy_instance.track_request_event(**params)
         end
       end
     end

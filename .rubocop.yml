@@ -106,3 +106,7 @@ RSpec/NamedSubject:
 Rails/RakeEnvironment:
   Exclude:
     - lib/tasks/auto_annotate_models.rake
+
+RSpec/MultipleMemoizedHelpers:
+  Max: 20
+  

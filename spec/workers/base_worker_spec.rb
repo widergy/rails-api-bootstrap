@@ -108,9 +108,10 @@ describe BaseWorker do
       it 'returns the body obtained from the utility service' do
         expect(execute_worker.second).to eq(expected_response_body)
       end
+
       it 'logs the invalid response' do
         expect_any_instance_of(worker_class).to receive(:log_invalid_response)
-          .with(hash_including(attempt: attempt))
+          .with(hash_including(attempt:))
         execute_worker
       end
     end

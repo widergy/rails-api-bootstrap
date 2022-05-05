@@ -25,7 +25,7 @@ describe EntityWithCode do
   after { drop_table }
 
   context 'when creating an entity with code attribute' do
-    let(:dummy_model) { CodeDummyClass.new(code: code) }
+    let(:dummy_model) { CodeDummyClass.new(code:) }
 
     before do
       dummy_model.save
@@ -60,7 +60,7 @@ describe EntityWithCode do
     let!(:dummy_model) { CodeDummyClass.create(code: 'code') }
 
     before do
-      CodeDummyClass.update(dummy_model.id, code: code)
+      CodeDummyClass.update(dummy_model.id, code:)
     end
 
     context 'when the code attribute is not present' do
@@ -79,7 +79,7 @@ describe EntityWithCode do
       end
 
       context 'when it is not unique' do
-        let(:another_dummy_model) { CodeDummyClass.new(code: code) }
+        let(:another_dummy_model) { CodeDummyClass.new(code:) }
 
         it 'raises an error' do
           expect { another_dummy_model.save! }.to raise_error(ActiveRecord::RecordInvalid)

@@ -16,7 +16,7 @@ module ApiResponseHelpers
       user: user_log_message(user),
       response_code: response.try(:code) || response.try(:first),
       response_body: response.try(:body) || response.try(:second),
-      extra: extra
+      extra:
     )
   end
 
@@ -24,7 +24,7 @@ module ApiResponseHelpers
     Rollbar.error(
       error, "Error while #{attempt}",
       utility: utility_log_message(utility),
-      params: params,
+      params:,
       user: user_log_message(user)
     )
   end
@@ -33,7 +33,7 @@ module ApiResponseHelpers
     Rollbar.info(
       message,
       utility: utility_log_message(utility),
-      params: params,
+      params:,
       response_code: response.code,
       response_body: response.body
     )

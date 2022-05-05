@@ -27,7 +27,7 @@ module Request
     end
 
     def json_args(path, params = {})
-      [path, **params.merge(as: :json)]
+      [path, { **params.merge(as: :json) }]
     end
   end
 end

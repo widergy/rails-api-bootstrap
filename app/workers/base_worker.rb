@@ -84,8 +84,8 @@ class BaseWorker
     # @!method attempt
     # Define attempt method to be used to retrieve error log information
     log_invalid_response(
-      response: response, utility: utility, entity: client,
-      attempt: attempt
+      response:, utility:, entity: client,
+      attempt:
     )
     [response.code, response.body]
   end

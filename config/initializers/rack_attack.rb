@@ -69,7 +69,7 @@ module Rack
     #   [503, {}, ['Server Error']] # status  # headers  # body
     # end
 
-    self.throttled_response = lambda do |env|
+    self.throttled_responder = lambda do |env|
       now = Time.zone.now
       match_data = env['rack.attack.match_data']
 
