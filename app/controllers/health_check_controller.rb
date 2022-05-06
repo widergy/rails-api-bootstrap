@@ -71,7 +71,7 @@ class HealthCheckController < HealthCheck::HealthCheckController
     healthy = !msg
     report_rollbar_error(msg) unless healthy
     msg ||= HealthCheck.success
-    { healthy: healthy, message: msg, display_message: display_message }
+    { healthy:, message: msg, display_message: }
   end
 
   def report_rollbar_error(message)
@@ -80,7 +80,7 @@ class HealthCheckController < HealthCheck::HealthCheckController
       utility: "Utility - ID: #{utility&.id}, NAME: #{utility&.name}",
       response_code: @utility_response&.code,
       response_body: @utility_response&.body,
-      message: message
+      message:
     )
   end
 

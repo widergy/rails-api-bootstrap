@@ -1,11 +1,10 @@
-#!/bin/bash
-
+#!/bin/sh
+# ref: https://forums.aws.amazon.com/thread.jspa?threadID=330819
+ 
 EB_APP_USER=$(/opt/elasticbeanstalk/bin/get-config platformconfig -k AppUser)
-EB_APP_PID_DIR="/var/pids"
-
-SIDEKIQ_PID=$EB_APP_PID_DIR/sidekiq.pid
-if [ -f $SIDEKIQ_PID ]
-then
-  echo "TSTP/quieting sidekiq"
-  su -s /bin/bash -c "kill -TSTP `cat $SIDEKIQ_PID`" $EB_APP_USER
+SIDEKIQ_PID=$(/usr/bin/pgrep -u "$EB_APP_USER" -f sidekiq)
+ 
+if [ -n "$SIDEKIQ_PID" ]; then
+  echo "TERM/quieting sidekiq"
+  kill -TERM "$SIDEKIQ_PID"
 fi

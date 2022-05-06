@@ -22,7 +22,7 @@ class ErrorResponseBuilder
       status: status_code(status),
       code: identifier,
       message: message || translated_error_message(identifier),
-      meta: meta
+      meta:
     }
     self
   end
