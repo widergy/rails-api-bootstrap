@@ -27,7 +27,7 @@ gem 'activeadmin', '~> 2.3'
 # gem 'activeadmin_addons'
 
 # Use for sending request to 3rd party APIs
-gem 'httparty', '~> 0.17'
+gem 'httparty', '~> 0.21'
 
 # For PORO management
 gem 'interactor', '~> 3.0'
