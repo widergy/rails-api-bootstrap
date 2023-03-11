@@ -1,0 +1,49 @@
+# Cheatsheet de keys generales
+# active: boolean. Indica si está activado o no el handler
+# version: integer. Indica la versión del handler
+# config: object. Configuración del handler
+
+handlers:
+  create_new_release:
+    active: true
+    # Personas a asignar al nuevo PR
+    assignees:
+      - segulino
+      - snahmod
+    # Labels a asignar al nuevo PR
+    labels:
+      - Release
+    # Indica si el bot debe esperar el tiempo definido en "defer_time" para crear el PR
+    defer: false
+    # Tiempo en minutos
+    defer_time: 0
+  mergeable:
+    version: 2
+    active: true
+    config:
+      # Permitir mergear a master (para librerias)
+      allow_merge_to_master: false
+      # Modo estricto para merge a dev. Ninguna card OPC se puede mergear a dev.
+      strict_merge_to_dev: false
+      # Modo estricto para merge a release correctiva. Solo cards OPC se pueden mergear.
+      strict_merge_to_corrective: false
+  cleanup_release:
+    active: true
+  is_semantic:
+    active: true
+  notify_and_clean_released:
+    active: true
+    # Agrega en un sheet la card y datos del PR
+    notify: true
+    # Limpia el branch
+    clean: true
+    # Cambia el estado de la card en Jira a "Done"
+    transition: true
+  notify_merge_to_release:
+    active: true
+  level_with_master:
+    active: false
+    config:
+      # Indica al bot que debe interntar hacer un merge al momento de nivelar.
+      automatic_merge: true
+  
