@@ -1,4 +1,5 @@
 require_relative 'boot'
+require_relative 'aws_secrets_manager'
 
 require "rails"
 # Pick the frameworks you want:
