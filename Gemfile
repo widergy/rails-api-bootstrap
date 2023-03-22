@@ -126,8 +126,9 @@ gem 'net-smtp'
 # Ruby cloud services library
 # gem 'fog'
 
-# Use for accessing AWS buckets
-# gem 'aws-sdk-rails'
+# Use for accessing AWS
+gem 'aws-sdk-rails', '~> 3'
+gem 'aws-sdk-secretsmanager', '~> 1'
 
 # Gives every ActiveRecord::Base object the possibility to do a deep clone that includes user
 # specified associations
