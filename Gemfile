@@ -137,6 +137,9 @@ gem 'aws-sdk-secretsmanager', '~> 1'
 # Postgres insights
 gem 'pghero'
 
+# Metric monitoring
+gem 'prometheus-client'
+
 group :test do
   # Rspec helpers
   gem 'rspec-sidekiq'
