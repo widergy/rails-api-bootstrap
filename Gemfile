@@ -67,7 +67,7 @@ gem 'bullet', '~> 7'
 # gem 'fast_jsonapi', '~> 1.5'
 
 # pg_search builds ActiveRecord named scopes that take advantage of PostgreSQL's full text search
-gem 'pg_search', '~> 2'
+# gem 'pg_search', '~> 2'
 
 # New Relic agent
 # gem 'newrelic_rpm', '~> 9'
@@ -77,7 +77,7 @@ gem 'pg_search', '~> 2'
 # gem 'skylight', '~> 5'
 
 # Rescue and report exceptions in non-critical code
-gem 'safely_block', '~> 0.4'
+# gem 'safely_block', '~> 0.4'
 
 # A plugin for versioning Rails based RESTful APIs.
 gem 'versionist', '~> 2'
