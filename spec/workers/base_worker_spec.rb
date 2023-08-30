@@ -111,7 +111,7 @@ describe BaseWorker do
 
       it 'logs the invalid response' do
         expect_any_instance_of(worker_class).to receive(:log_invalid_response)
-          .with(hash_including(attempt:))
+          .with(hash_including(attempt: attempt))
         execute_worker
       end
     end

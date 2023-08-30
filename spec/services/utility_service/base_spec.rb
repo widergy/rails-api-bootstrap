@@ -101,8 +101,8 @@ describe UtilityService::Base do
     context 'when sending a hash of params' do
       let(:params) do
         {
-          random_key:,
-          another_random_key:
+          random_key: random_key,
+          another_random_key: another_random_key
         }
       end
 
@@ -113,8 +113,8 @@ describe UtilityService::Base do
 
     context 'when sending ActionController::Parameter params' do
       let(:params) do
-        ActionController::Parameters.new(random_key:,
-                                         another_random_key:).permit!
+        ActionController::Parameters.new(random_key: random_key,
+                                         another_random_key: another_random_key).permit!
       end
 
       it 'returns a hash with indifferent access' do
@@ -139,8 +139,8 @@ describe UtilityService::Base do
 
       let(:params) do
         {
-          random_key:,
-          another_random_key:
+          random_key: random_key,
+          another_random_key: another_random_key
         }
       end
 
