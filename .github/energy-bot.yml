@@ -46,4 +46,30 @@ handlers:
     config:
       # Indica al bot que debe interntar hacer un merge al momento de nivelar.
       automatic_merge: true
+  complete_new_pr:
+    active: true
+    version: 1
+  completition_metrics:
+    active: true
+    version: 1
+    config:
+      sheet_id: 1T_8q9ZpfmGwawoiAbt5BTV9mM6qCtHY1oAVSDb7Rg1w
+  assigner:
+    active: true
+    version: 1
+    config:
+      assignees:
+        - florfrioli
+        - DDannevig
+        - marciondg
+        - IosuFD
+        - JoaquinSeita
+        - mgonidev
+        - mgnmaguire
+        - JoaquinHetrea
+        - royvicente
+        - Coria97
+        - GabrielPiccini
+        - marciondg
+        - lucasenriquez
   

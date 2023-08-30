@@ -13,6 +13,8 @@ require "action_view/railtie"
 require "action_cable/engine"
 require "rails/test_unit/railtie"
 require 'wannabe_bool'
+require 'prometheus/client'
+require 'prometheus/client/data_stores/direct_file_store'
 # require 'fog/core'
 # Fog::Logger[:deprecation] = nil
 
@@ -56,5 +58,7 @@ module RailsApiBootstrap
     config.middleware.use ActionDispatch::Flash
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
+
+    Prometheus::Client.config.data_store = Prometheus::Client::DataStores::DirectFileStore.new(dir: '/tmp/prometheus_direct_file_store')
   end
 end
