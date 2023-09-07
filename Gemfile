@@ -1,16 +1,13 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.6'
+ruby '~> 3.0'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '7.0.0'
+gem 'rails', '~> 7.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1'
-
-# Use Puma as the app server
-gem 'puma', '~> 6.3'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '~> 1', require: false
@@ -83,8 +80,7 @@ gem 'bullet', '~> 7'
 gem 'versionist', '~> 2'
 
 # For handling requests that relies in 3rd party API calls
-# TODO: Fix dependency issue with rails 6.1 and sidekiq > 7
-# gem 'async_request', github: 'icapuccio/async-requests', branch: 'version-0-9'
+gem 'async_request', git: 'https://github.com/widergy/async-requests.git', branch: 'version-0-10-standarized-logs'
 
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern
 # web app frameworks and ORMs
@@ -151,6 +147,9 @@ group :test do
 end
 
 group :development, :test do
+  # Use Puma as the app server
+  gem 'puma', '~> 6.3'
+
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', '~> 11', platforms: %i[mri mingw x64_mingw]
 
