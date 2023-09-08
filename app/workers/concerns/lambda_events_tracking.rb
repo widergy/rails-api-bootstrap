@@ -51,7 +51,7 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
   end
 
   def track_event
-    self.class.post('/data', body:, headers: base_headers.merge(headers))
+    self.class.post('/data', body: body, headers: base_headers.merge(headers))
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -63,8 +63,8 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
       id_type: entity_event_id_type,
       utility_code: utility_lambda.code,
       entity_name: ApiAnalytics::ENTITIES_NAME[entity_event_id_type],
-      event:,
-      channel:,
+      event: event,
+      channel: channel,
       metadata: options[:metadata],
       app: options[:app_name] || ApiAnalytics::AppName::RAILS_API_BOOTSTRAP,
       timestamp: now
@@ -75,10 +75,10 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
     {
       event_type: ApiAnalytics::EventsType::UTILITY_REQUEST_EVENT,
       utility_code: utility_lambda.code,
-      url:,
-      http_method:,
-      failed:,
-      response:,
+      url: url,
+      http_method: http_method,
+      failed: failed,
+      response: response,
       body: options[:body],
       params: options[:params],
       timestamp: Time.zone.now
@@ -133,21 +133,21 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
   end
 
   def lambda_event_tracking_error(error)
-    log_and_report_error(error:, attempt:, utility: utility_lambda,
+    log_and_report_error(error: error, attempt: attempt, utility: utility_lambda,
                          user: user_or_client_or_nil)
   end
 
   def log_and_report_warning
     log_and_report_invalid_response(response: lambda_response, utility: utility_lambda,
-                                    user: user_or_client_or_nil, attempt:)
+                                    user: user_or_client_or_nil, attempt: attempt)
   end
 
   def log_warning_message(message)
-    log_warning(message:, utility: utility_lambda, user: user_or_client_or_nil)
+    log_warning(message: message, utility: utility_lambda, user: user_or_client_or_nil)
   end
 
   def log_info_message(message)
-    log_info(message:, utility: utility_lambda, user: user_or_client_or_nil)
+    log_info(message: message, utility: utility_lambda, user: user_or_client_or_nil)
   end
 
   def attempt

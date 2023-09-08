@@ -18,7 +18,7 @@ module WorkerHelpers # rubocop:disable Metrics/ModuleLength
 
   def error_builder(status_code, error_identifier, message: nil, meta: nil, utility: nil)
     ErrorResponseBuilder.new(status_code, utility)
-                        .add_error(error_identifier, message:, meta:)
+                        .add_error(error_identifier, message: message, meta: meta)
   end
 
   def log_invalid_response(response:, attempt:, utility: nil, entity: nil, account: nil)
@@ -35,18 +35,18 @@ module WorkerHelpers # rubocop:disable Metrics/ModuleLength
 
   def log_and_report_invalid_response(response:, attempt:, utility: nil, user: nil, account: nil)
     log_warning_response(
-      response:, attempt:, utility:, user:, account:
+      response: response, attempt: attempt, utility: utility, user: user, account: account
     )
     report_warning(
-      message: "Error while #{attempt}", utility:, user:, account:,
-      response:
+      message: "Error while #{attempt}", utility: utility, user: user, account: account,
+      response: response
     )
   end
 
   def log_and_report_error(error:, attempt:, utility: nil, user: nil, account: nil)
-    log_error(error:, attempt:, utility:)
-    report_error(error:, attempt:, utility:, user:,
-                 account:)
+    log_error(error: error, attempt: attempt, utility: utility)
+    report_error(error: error, attempt: attempt, utility: utility, user: user,
+                 account: account)
   end
 
   def log_warning_response(response:, attempt:, utility: nil, user: nil, account: nil)

@@ -11,11 +11,12 @@ require "action_controller/railtie"
 require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
-require "sprockets/railtie"
 require "rails/test_unit/railtie"
 require 'wannabe_bool'
 require 'prometheus/client'
 require 'prometheus/client/data_stores/direct_file_store'
+# require 'fog/core'
+# Fog::Logger[:deprecation] = nil
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -24,7 +25,7 @@ Bundler.require(*Rails.groups)
 module RailsApiBootstrap
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 5.2
+    config.load_defaults 7.0
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -45,6 +46,9 @@ module RailsApiBootstrap
 
     # Sets the default time zone
     config.time_zone = 'America/Argentina/Buenos_Aires'
+
+    # Using legacy connection handling is deprecated
+    config.active_record.legacy_connection_handling = false
 
     # Tell your app to use the Rack::Attack middleware
     config.middleware.use Rack::Attack

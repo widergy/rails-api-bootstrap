@@ -10,46 +10,46 @@ module ServiceBaseHelper # rubocop:disable Metrics/ModuleLength
   # rubocop:disable Metrics/ParameterLists
   def get(url, query: nil, timeout: 60, auth_strategy: @default_auth_strategy,
           custom_headers: {})
-    log_request('GET', url, query:, auth_strategy:, timeout:)
+    log_request('GET', url, query: query, auth_strategy: auth_strategy, timeout: timeout)
     perform_request(
-      :get, url, query:, timeout:,
-                 headers: headers(auth_strategy, custom_headers:)
+      :get, url, query: query, timeout: timeout,
+                 headers: headers(auth_strategy, custom_headers: custom_headers)
     )
   end
 
   def post(url, query: nil, body: {}, content_type: 'application/json', timeout: 60,
            auth_strategy: @default_auth_strategy, custom_headers: {})
-    log_request('POST', url, query:, auth_strategy:,
-                             body:, timeout:, content_type:)
+    log_request('POST', url, query: query, auth_strategy: auth_strategy,
+                             body: body, timeout: timeout, content_type: content_type)
     perform_request(
-      :post, url, query:, body: formatted_body(body, content_type),
-                  timeout:,
-                  headers: headers(auth_strategy, content_type:,
-                                                  custom_headers:)
+      :post, url, query: query, body: formatted_body(body, content_type),
+                  timeout: timeout,
+                  headers: headers(auth_strategy, content_type: content_type,
+                                                  custom_headers: custom_headers)
     )
   end
 
   def delete(url, query: nil, body: {}, content_type: 'application/json', timeout: 60,
              auth_strategy: @default_auth_strategy, custom_headers: {})
-    log_request('DELETE', url, query:, auth_strategy:,
-                               body:, timeout:, content_type:)
+    log_request('DELETE', url, query: query, auth_strategy: auth_strategy,
+                               body: body, timeout: timeout, content_type: content_type)
     perform_request(
-      :delete, url, query:, body: formatted_body(body, content_type),
-                    timeout:,
-                    headers: headers(auth_strategy, content_type:,
-                                                    custom_headers:)
+      :delete, url, query: query, body: formatted_body(body, content_type),
+                    timeout: timeout,
+                    headers: headers(auth_strategy, content_type: content_type,
+                                                    custom_headers: custom_headers)
     )
   end
 
   def put(url, query: nil, body: {}, content_type: 'application/json', timeout: 60,
           auth_strategy: @default_auth_strategy, custom_headers: {})
-    log_request('PUT', url, query:, auth_strategy:,
-                            body:, timeout:, content_type:)
+    log_request('PUT', url, query: query, auth_strategy: auth_strategy,
+                            body: body, timeout: timeout, content_type: content_type)
     perform_request(
-      :put, url, query:, body: formatted_body(body, content_type),
-                 timeout:,
-                 headers: headers(auth_strategy, content_type:,
-                                                 custom_headers:)
+      :put, url, query: query, body: formatted_body(body, content_type),
+                 timeout: timeout,
+                 headers: headers(auth_strategy, content_type: content_type,
+                                                 custom_headers: custom_headers)
     )
   end
 

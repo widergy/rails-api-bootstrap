@@ -107,7 +107,7 @@ describe LambdaEventsTracking do
       context 'without client in context' do
         let(:model) { nil }
         let(:client_id) { nil }
-        let(:params) { base_params.merge(utility:) }
+        let(:params) { base_params.merge(utility: utility) }
 
         context 'when request is sucessful' do
           let(:expected_keys) do
@@ -234,7 +234,7 @@ describe LambdaEventsTracking do
       let(:utility) { double('utility') }
       let(:model) { nil }
       let(:client_id) { nil }
-      let(:params) { base_params.merge(utility:) }
+      let(:params) { base_params.merge(utility: utility) }
 
       before do
         allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)

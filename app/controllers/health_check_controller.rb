@@ -56,22 +56,16 @@ class HealthCheckController < HealthCheck::HealthCheckController
     head :not_found
   end
 
-  def send_response(msg, text_status, obj_status, display_message: nil)
-    obj = build_obj(msg, display_message)
-    msg ||= HealthCheck.success
+  def send_response(healthy, msg, text_status, obj_status, display_message = nil)
+    msg ||= healthy ? HealthCheck.success : HealthCheck.failure
+    report_rollbar_error(msg) unless healthy
+    obj = { healthy: healthy, message: msg, display_message: display_message }
     respond_to do |format|
-      format.html { render plain_key => msg, status: text_status, content_type: 'text/plain' }
+      format.html { render plain: msg, status: text_status, content_type: 'text/plain' }
       format.json { render json: obj, status: obj_status }
       format.xml { render xml: obj, status: obj_status }
-      format.any { render plain_key => msg, status: text_status, content_type: 'text/plain' }
+      format.any { render plain: msg, status: text_status, content_type: 'text/plain' }
     end
-  end
-
-  def build_obj(msg, display_message)
-    healthy = !msg
-    report_rollbar_error(msg) unless healthy
-    msg ||= HealthCheck.success
-    { healthy:, message: msg, display_message: }
   end
 
   def report_rollbar_error(message)
@@ -80,7 +74,7 @@ class HealthCheckController < HealthCheck::HealthCheckController
       utility: "Utility - ID: #{utility&.id}, NAME: #{utility&.name}",
       response_code: @utility_response&.code,
       response_body: @utility_response&.body,
-      message:
+      message: message
     )
   end
 

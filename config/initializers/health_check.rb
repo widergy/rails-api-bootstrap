@@ -68,6 +68,9 @@ HealthCheck.setup do |config|
 
   # When redis url is non-standard
   config.redis_url = ENV.fetch('REDIS_URL') { "redis://#{ENV.fetch('REDIS_1_PORT_6379_TCP_ADDR', '127.0.0.1')}:6379" }
+  ## This is related to this issue: https://github.com/Purple-Devs/health_check/pull/108
+  ## There are working on a fix, but in the meantime, we need to set the password to nil
+  config.redis_password = nil
 
   # Disable the error message to prevent /health_check from leaking
   # sensitive information

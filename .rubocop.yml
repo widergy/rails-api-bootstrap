@@ -66,6 +66,7 @@ Rails/UniqueValidationWithoutIndex:
 require:
   - rubocop-rspec
   - rubocop-rails
+  - rubocop-factory_bot
 
 RSpec/FilePath:
   Enabled: false

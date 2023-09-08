@@ -25,23 +25,23 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
                         timeout: options[:timeout]
       )
     rescue *HTTP_TIMEOUT_ERRORS => e
-      log_error(e, http_verb:, url:)
+      log_error(e, http_verb: http_verb, url: url)
       build_error_response(504, 'gateway_timeout')
     rescue *ALL_HTTP_ERRORS => e
-      log_warning(e, http_verb:, url:)
+      log_warning(e, http_verb: http_verb, url: url)
       retry if (retries += 1) < Rails.application.secrets.request_retries
-      log_and_report_error(e, http_verb:, url:)
+      log_and_report_error(e, http_verb: http_verb, url: url)
       notify_failed_external_request
       build_error_response(500, 'internal_server_error')
     rescue ArgumentError => e
-      log_and_report_error(e, http_verb:, url:)
+      log_and_report_error(e, http_verb: http_verb, url: url)
       build_error_response(501, 'service_unavailable')
     rescue Net::CircuitOpenError => e
-      log_and_report_error(e, http_verb:, url:)
+      log_and_report_error(e, http_verb: http_verb, url: url)
       disable_utility
       build_error_response(500, 'circuit_open_error')
     rescue StandardError => e
-      log_and_report_error(e, http_verb:, url:)
+      log_and_report_error(e, http_verb: http_verb, url: url)
       build_error_response(500, 'internal_server_error')
     end
   end
@@ -49,7 +49,7 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
 
   def build_error_response(code, error, message = nil, meta = nil)
     self.class::Response.new(
-      code, ErrorResponseBuilder.new(code).add_error(error, message:, meta:).to_h
+      code, ErrorResponseBuilder.new(code).add_error(error, message: message, meta: meta).to_h
     )
   end
 
@@ -169,12 +169,12 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
   end
 
   def log_and_report_error(e, http_verb: nil, url: nil)
-    log_error(e, http_verb:, url:)
+    log_error(e, http_verb: http_verb, url: url)
     Rollbar.error(e, utility: @utility.name, url: "#{http_verb} #{url}")
   end
 
   def log_and_report_warning(e, http_verb: nil, url: nil)
-    log_warning(e, http_verb:, url:)
+    log_warning(e, http_verb: http_verb, url: url)
     Rollbar.warning(e, utility: @utility.name, url: "#{http_verb} #{url}")
   end
 end
