@@ -1,0 +1,23 @@
+# TODO: run 'eb init' to regenerate this file and validate application name, environment, and region with technology team
+branch-defaults:
+  development:
+    environment: rails-api-bootstrap-dev
+  master:
+    environment: rails-api-bootstrap-01
+environment-defaults:
+  rails-api-bootstrap-dev:
+    branch: null
+    repository: null
+global:
+  application_name: rails-api-bootstrap
+  default_ec2_keyname: rails-api-bootstrap-dev
+  default_platform: arn:aws:elasticbeanstalk:us-east-1::platform/Puma with Ruby 2.7.6 
+   running on 64bit Amazon Linux 2/3.4.6
+  default_region: us-east-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  sc: git
+  workspace_type: Application
