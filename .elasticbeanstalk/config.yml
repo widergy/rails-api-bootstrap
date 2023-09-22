@@ -1,4 +1,4 @@
-# TODO: validate with infrastructure team
+# TODO: run 'eb init' to regenerate this file and validate application name, environment, and region with technology team
 branch-defaults:
   development:
     environment: rails-api-bootstrap-dev
