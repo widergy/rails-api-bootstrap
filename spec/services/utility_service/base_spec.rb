@@ -14,8 +14,7 @@ describe UtilityService::Base do
     let(:utility) { double('utility') }
 
     before do
-      allow(utility).to receive(:base_url).and_return('http://www.some-base.com')
-      allow(utility).to receive(:external_api_access_token?).and_return(false)
+      allow(utility).to receive_messages(base_url: 'http://www.some-base.com', external_api_access_token?: false)
       allow_any_instance_of(described_class).to receive(:build_utility_service_methods).and_return(described_class)
     end
 
@@ -32,8 +31,7 @@ describe UtilityService::Base do
 
       context 'when the utility\'s base url ends with /' do
         before do
-          allow(utility).to receive(:base_url).and_return('http://www.some-base.com/')
-          allow(utility).to receive(:external_api_access_token?).and_return(false)
+          allow(utility).to receive_messages(base_url: 'http://www.some-base.com/', external_api_access_token?: false)
           allow_any_instance_of(described_class).to receive(:build_utility_service_methods).and_return(described_class)
         end
 
@@ -58,8 +56,7 @@ describe UtilityService::Base do
         let(:utility) { double('utility') }
 
         before do
-          allow(utility).to receive(:base_url).and_return('http://www.some-base.com')
-          allow(utility).to receive(:external_api_access_token?).and_return(false)
+          allow(utility).to receive_messages(base_url: 'http://www.some-base.com', external_api_access_token?: false)
           allow_any_instance_of(described_class).to receive(:build_utility_service_methods).and_return(described_class)
         end
 
@@ -93,8 +90,7 @@ describe UtilityService::Base do
     let(:another_random_key) { Faker::Number.number(digits: 2) }
 
     before do
-      allow(utility).to receive(:base_url).and_return('http://unaurl.api.com')
-      allow(utility).to receive(:external_api_access_token?).and_return(false)
+      allow(utility).to receive_messages(base_url: 'http://unaurl.api.com', external_api_access_token?: false)
       allow_any_instance_of(described_class).to receive(:build_utility_service_methods).and_return(described_class)
     end
 

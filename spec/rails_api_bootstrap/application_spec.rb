@@ -4,7 +4,7 @@ describe RailsApiBootstrap::Application do
   subject(:version) { described_class::VERSION }
 
   it 'has a version number' do
-    expect(version).not_to be nil
+    expect(version).not_to be_nil
   end
 
   it 'has the correct version number' do

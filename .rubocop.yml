@@ -1,7 +1,7 @@
 # This is the configuration used to check the rubocop source code.
 
 AllCops:
-  NewCops: disable
+  NewCops: enable
   Exclude:
     - spec/support/spec_helper.rb
     - spec/rails_helper.rb
@@ -67,6 +67,7 @@ require:
   - rubocop-rspec
   - rubocop-rails
   - rubocop-factory_bot
+  - rubocop-performance
 
 RSpec/FilePath:
   Enabled: false

@@ -41,8 +41,8 @@ class HealthCheckController < HealthCheck::HealthCheckController
     # Log a single line as some uptime checkers only record that it failed, not the text returned
     logger&.info message
     send_response(
-      message, HealthCheck.http_status_for_error_text, HealthCheck.http_status_for_error_object,
-      display_message: utility.display_downtime_message
+      false, message, HealthCheck.http_status_for_error_text,
+      HealthCheck.http_status_for_error_object, display_message: utility.display_downtime_message
     )
   end
 

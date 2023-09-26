@@ -24,12 +24,12 @@ module WorkerHelpers # rubocop:disable Metrics/ModuleLength
   def log_invalid_response(response:, attempt:, utility: nil, entity: nil, account: nil)
     Rails.logger.error do
       "\n\nError while #{attempt}\n" \
-      "#{utility_log_message(utility)}\n" \
-      "ENTITY: #{entity_log_message(entity)}" \
-      "#{account_log_message(account)}\n" \
-      "Response -\n" \
-      "Code: #{response.code}\n" \
-      "Body: #{response.body}\n\n"
+        "#{utility_log_message(utility)}\n" \
+        "ENTITY: #{entity_log_message(entity)}" \
+        "#{account_log_message(account)}\n" \
+        "Response -\n" \
+        "Code: #{response.code}\n" \
+        "Body: #{response.body}\n\n"
     end
   end
 
@@ -52,43 +52,43 @@ module WorkerHelpers # rubocop:disable Metrics/ModuleLength
   def log_warning_response(response:, attempt:, utility: nil, user: nil, account: nil)
     Rails.logger.warn do
       "\n\nError while #{attempt}\n" \
-      "#{utility_log_message(utility)}\n" \
-      "#{user_log_message(user)}\n" \
-      "#{account_log_message(account)}\n" \
-      "Response -\n" \
-      "Code: #{response&.code}\n" \
-      "Body: #{response&.body}\n\n"
+        "#{utility_log_message(utility)}\n" \
+        "#{user_log_message(user)}\n" \
+        "#{account_log_message(account)}\n" \
+        "Response -\n" \
+        "Code: #{response&.code}\n" \
+        "Body: #{response&.body}\n\n"
     end
   end
 
   def log_error(attempt:, error:, utility: nil)
     Rails.logger.error do
       "\n\nError while #{attempt}\n" \
-      "#{utility_log_message(utility)}\n" \
-      "Error: #{error.message}\n" \
-      "#{error.backtrace.join("\n")}\n\n"
+        "#{utility_log_message(utility)}\n" \
+        "Error: #{error.message}\n" \
+        "#{error.backtrace.join("\n")}\n\n"
     end
   end
 
   def log_info(message:, utility: nil, user: nil, account: nil)
     Rails.logger.info do
       "\n\n" \
-      "#{utility_log_message(utility)}\n" \
-      "#{user_log_message(user)}\n" \
-      "#{account_log_message(account)}\n" \
-      "Message: #{message}\n\n"
+        "#{utility_log_message(utility)}\n" \
+        "#{user_log_message(user)}\n" \
+        "#{account_log_message(account)}\n" \
+        "Message: #{message}\n\n"
     end
   end
 
   def log_warning(message:, response: nil, utility: nil, user: nil, account: nil)
     Rails.logger.warn do
       "\n\n#{message}\n" \
-      "#{utility_log_message(utility)}\n" \
-      "#{user_log_message(user)}\n" \
-      "#{account_log_message(account)}\n" \
-      "Response -\n" \
-      "Code: #{response&.code}\n" \
-      "Body: #{response&.body}\n\n"
+        "#{utility_log_message(utility)}\n" \
+        "#{user_log_message(user)}\n" \
+        "#{account_log_message(account)}\n" \
+        "Response -\n" \
+        "Code: #{response&.code}\n" \
+        "Body: #{response&.body}\n\n"
     end
   end
 

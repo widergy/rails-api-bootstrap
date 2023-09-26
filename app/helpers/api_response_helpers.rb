@@ -58,11 +58,11 @@ module ApiResponseHelpers
   def log_invalid_response(response:, attempt:, utility: nil, entity: nil)
     Rails.logger.error do
       "\n\nError while #{attempt}\n" \
-      "#{utility_log_message(utility)}\n" \
-      "ENTITY: #{entity_log_message(entity)}" \
-      "Response -\n" \
-      "Code: #{response.try(:code) || response.try(:first)}\n" \
-      "Body: #{response.try(:body) || response.try(:second)}\n\n"
+        "#{utility_log_message(utility)}\n" \
+        "ENTITY: #{entity_log_message(entity)}" \
+        "Response -\n" \
+        "Code: #{response.try(:code) || response.try(:first)}\n" \
+        "Body: #{response.try(:body) || response.try(:second)}\n\n"
     end
   end
 end

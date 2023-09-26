@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe VersionsController, type: :controller do
+describe VersionsController do
   describe 'GET #show' do
     context 'when asking for the API version' do
       let!(:version) { RailsApiBootstrap::Application::VERSION }
