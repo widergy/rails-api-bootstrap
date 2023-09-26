@@ -27,9 +27,7 @@ describe LambdaEventsTracking do
 
     before do
       allow(dummy_instance).to receive(:utility_lambda).and_return(utility)
-      allow(utility).to receive(:id).and_return(8)
-      allow(utility).to receive(:code).and_return(8)
-      allow(utility).to receive(:name).and_return('utility name')
+      allow(utility).to receive_messages(id: 8, code: 8, name: 'utility name')
       allow(dummy_instance).to receive(:track_event).and_raise(StandardError)
       allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)
     end
@@ -62,13 +60,11 @@ describe LambdaEventsTracking do
 
     context 'when calling an event tracking with valid params' do
       before do
-        allow(dummy_instance).to receive(:track_event)
-          .and_return(OpenStruct.new(code: response_code))
         allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)
-        allow(utility).to receive(:id).and_return(8)
-        allow(utility).to receive(:code).and_return(8)
-        allow(utility).to receive(:name).and_return('utility name')
-        allow(dummy_instance).to receive(:utility_lambda).and_return(utility)
+        allow(utility).to receive_messages(id: 8, code: 8, name: 'utility name')
+        allow(dummy_instance).to receive_messages(
+          track_event: Struct.new(:code).new(response_code), utility_lambda: utility
+        )
       end
 
       context 'with client in context' do
@@ -89,7 +85,7 @@ describe LambdaEventsTracking do
             dummy_instance.track_entity_event(**base_params)
             expect(JSON.parse(dummy_instance.send(:track_entity_event_body, base_params[:event],
                                                   base_params[:channel]),
-                              symbolize_names: true).keys).to contain_exactly(*expected_keys)
+                              symbolize_names: true).keys).to match_array(expected_keys)
           end
         end
 
@@ -126,7 +122,7 @@ describe LambdaEventsTracking do
             dummy_instance.track_entity_event(**params)
             expect(JSON.parse(dummy_instance.send(:track_entity_event_body, base_params[:event],
                                                   base_params[:channel]),
-                              symbolize_names: true).keys).to contain_exactly(*expected_keys)
+                              symbolize_names: true).keys).to match_array(expected_keys)
           end
         end
 
@@ -160,7 +156,7 @@ describe LambdaEventsTracking do
           dummy_instance.track_entity_event(**base_params)
           expect(JSON.parse(dummy_instance.send(:track_entity_event_body, base_params[:event],
                                                 base_params[:channel]),
-                            symbolize_names: true).keys).to contain_exactly(*expected_keys)
+                            symbolize_names: true).keys).to match_array(expected_keys)
         end
       end
     end
@@ -180,13 +176,11 @@ describe LambdaEventsTracking do
       let(:utility) { double('utility') }
 
       before do
-        allow(dummy_instance).to receive(:track_event)
-          .and_return(OpenStruct.new(code: response_code))
         allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)
-        allow(utility).to receive(:id).and_return(8)
-        allow(utility).to receive(:code).and_return(8)
-        allow(utility).to receive(:name).and_return('utility name')
-        allow(dummy_instance).to receive(:utility_lambda).and_return(utility)
+        allow(utility).to receive_messages(id: 8, code: 8, name: 'utility name')
+        allow(dummy_instance).to receive_messages(
+          track_event: Struct.new(:code).new(response_code), utility_lambda: utility
+        )
       end
 
       context 'when missing a required param' do
@@ -238,12 +232,10 @@ describe LambdaEventsTracking do
 
       before do
         allow_any_instance_of(WorkerHelpers).to receive(:user_or_client_or_nil).and_return(nil)
-        allow(utility).to receive(:id).and_return(8)
-        allow(utility).to receive(:code).and_return(8)
-        allow(utility).to receive(:name).and_return('utility name')
-        allow(dummy_instance).to receive(:track_event)
-          .and_return(OpenStruct.new(code: response_code))
-        allow(dummy_instance).to receive(:utility_lambda).and_return(utility)
+        allow(utility).to receive_messages(id: 8, code: 8, name: 'utility name')
+        allow(dummy_instance).to receive_messages(
+          track_event: Struct.new(:code).new(response_code), utility_lambda: utility
+        )
       end
 
       context 'when request is sucessful' do
@@ -264,7 +256,7 @@ describe LambdaEventsTracking do
                                                 base_params[:http_method],
                                                 base_params[:failed],
                                                 base_params[:response]),
-                            symbolize_names: true).keys).to contain_exactly(*expected_keys)
+                            symbolize_names: true).keys).to match_array(expected_keys)
         end
       end
 

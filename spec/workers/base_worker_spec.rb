@@ -39,8 +39,7 @@ describe BaseWorker do
     end
 
     before do
-      allow(utility_service_class).to receive(:instance_methods).and_return(method)
-      allow(utility_service_class).to receive(:instance_method).and_return(method)
+      allow(utility_service_class).to receive_messages(instance_methods: method, instance_method: method)
       allow_any_instance_of(worker_class).to receive(:service).and_return(service)
       allow_any_instance_of(worker_class).to receive(:attempt).and_return(attempt)
       allow_any_instance_of(worker_class).to receive(:process_response)
@@ -49,14 +48,8 @@ describe BaseWorker do
         .and_return(transform_response)
       allow(method).to receive(:parameters).and_return(%w[a b c])
       allow(client).to receive(:id).and_return(10)
-      allow(model).to receive(:safe_constantize).and_return(model)
-      allow(model).to receive(:id).and_return(10)
-      allow(model).to receive(:find).and_return(model)
-      allow(model).to receive(:utility).and_return(utility)
-      allow(utility).to receive(:utility_service_class).and_return(utility_service_class)
-      allow(utility).to receive(:utility_service).and_return(utility_service)
-      allow(utility).to receive(:id).and_return(1)
-      allow(utility).to receive(:name).and_return('name')
+      allow(model).to receive_messages(safe_constantize: model, id: 10, find: model, utility: utility)
+      allow(utility).to receive_messages(utility_service_class: utility_service_class, utility_service: utility_service, id: 1, name: 'name')
       allow(utility_service).to receive(:service).and_return(response)
     end
 
@@ -69,8 +62,7 @@ describe BaseWorker do
       end
 
       before do
-        allow(response).to receive(:code).and_return(code)
-        allow(response).to receive(:body).and_return(body)
+        allow(response).to receive_messages(code: code, body: body)
       end
 
       it 'returns status code ok' do
@@ -97,8 +89,7 @@ describe BaseWorker do
       end
 
       before do
-        allow(response).to receive(:code).and_return(500)
-        allow(response).to receive(:body).and_return(error: 'message')
+        allow(response).to receive_messages(code: 500, body: { error: 'message' })
       end
 
       it 'returns status code obtained from the utility service' do

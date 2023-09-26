@@ -157,14 +157,14 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
   def log_error(e, http_verb: nil, url: nil)
     Rails.logger.error do
       "\n\nError for Utility: #{@utility.name} & request: #{http_verb} #{url} \n" \
-      "#{e.message} \n #{e.backtrace.join("\n")}\n\n"
+        "#{e.message} \n #{e.backtrace.join("\n")}\n\n"
     end
   end
 
   def log_warning(e, http_verb: nil, url: nil)
     Rails.logger.warn do
       "\n\nWarning for Utility: #{@utility.name} & request: #{http_verb} #{url} \n" \
-      "#{e.message}\n\n"
+        "#{e.message}\n\n"
     end
   end
 

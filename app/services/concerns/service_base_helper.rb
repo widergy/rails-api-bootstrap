@@ -57,13 +57,13 @@ module ServiceBaseHelper # rubocop:disable Metrics/ModuleLength
                   content_type: nil)
     Rails.logger.info do
       "\n\nSending #{http_verb} request to URL: #{build_url(url)} \n" \
-      "Utility - ID: #{@utility&.id}, NAME: #{@utility&.name} \n" \
-      "#{client_log_request(@client)}" \
-      "Auth: #{auth_strategy_present?(auth_strategy)} - Strategy: #{auth_strategy} \n" \
-      "Content-Type: #{content_type} \n" \
-      "Body: #{body&.filtered&.as_json} \n" \
-      "Query params: #{query&.filtered&.as_json} \n" \
-      "Timeout: #{timeout} \n\n"
+        "Utility - ID: #{@utility&.id}, NAME: #{@utility&.name} \n" \
+        "#{client_log_request(@client)}" \
+        "Auth: #{auth_strategy_present?(auth_strategy)} - Strategy: #{auth_strategy} \n" \
+        "Content-Type: #{content_type} \n" \
+        "Body: #{body&.filtered&.as_json} \n" \
+        "Query params: #{query&.filtered&.as_json} \n" \
+        "Timeout: #{timeout} \n\n"
     end
   end
   # rubocop:enable Metrics/ParameterLists
@@ -71,7 +71,7 @@ module ServiceBaseHelper # rubocop:disable Metrics/ModuleLength
   def client_log_request(client)
     return if client.nil?
     "#{client&.class&.name} - ID: #{client&.id} \n" \
-    "#{client&.identification_key}: #{client&.identification} \n"
+      "#{client&.identification_key}: #{client&.identification} \n"
   end
 
   def auth_strategy_present?(strategy)
@@ -96,9 +96,9 @@ module ServiceBaseHelper # rubocop:disable Metrics/ModuleLength
     Rails.logger.info do
       receiving_response(service)
       "ID: #{@utility&.id}, NAME: #{@utility&.name} \n" \
-      "Status Code: #{response&.code} \n" \
-      "Content-Type: #{response&.headers&.fetch('content-type', {})} \n" \
-      "Body:#{response&.body}\n" \
+        "Status Code: #{response&.code} \n" \
+        "Content-Type: #{response&.headers&.fetch('content-type', {})} \n" \
+        "Body:#{response&.body}\n" \
     end
   end
 

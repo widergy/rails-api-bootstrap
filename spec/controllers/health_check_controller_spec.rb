@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe HealthCheckController, type: :controller do
+describe HealthCheckController do
   describe 'GET #index' do
     subject do
       get :index, params: { checks: 'all' }
