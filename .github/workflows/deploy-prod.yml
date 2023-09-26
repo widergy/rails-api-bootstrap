@@ -8,7 +8,7 @@ on:
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Set enviroment variables
     env:
@@ -43,7 +43,7 @@ jobs:
     steps:
     # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
@@ -55,8 +55,8 @@ jobs:
       run: bundle -v
 
     # Restore bundle cache
-    - name: Cache node modules
-      uses: actions/cache@v1
+    - name: Cache Ruby dependencies
+      uses: actions/cache@v3
       id: bundler-cache
       with:
         path: vendor/bundle
@@ -88,26 +88,28 @@ jobs:
       run: bundle exec rspec
  
   deploy-prod:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     needs: [build_and_test]
     steps:
       - name: Test echo
         run: echo test
-      - name: Using docker python image
-        uses: docker://circleci/python:3.7 # docker://{host}/{image}:{tag}
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3        
+      - name: Install Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
       - name: Install AWS & ElasticBeanstalk dependencies
         run: |
-          sudo apt-get install python3-setuptools
-          sudo pip3 install awscli
-          sudo pip3 install awsebcli --upgrade
+          python -m pip install --upgrade pip
+          pip install "pyyaml<5.4"
+          pip install awsebcli
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v1-node16
         with:
           aws-access-key-id: ${{ secrets.WIDERGYPROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.WIDERGYPROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-      - name: Deploy to AWS ElasticBeastalk
+      - name: Deploy to AWS ElasticBeanstalk
         run:
           eb deployrails-api-bootstrap-e01
