@@ -1,5 +1,5 @@
-# module Api
-#   class ApiBaseController < ApiController
+module Api
+  class ApiBaseController < ApiController
 #     before_action :current_user, :validate_utility, :authenticate_request
 
 #     def current_user
@@ -52,5 +52,5 @@
 #     def retrieve_file_name(response)
 #       response.headers['content-disposition'].split('=').second.delete('"')
 #     end
-#   end
-# end
+  end
+end
