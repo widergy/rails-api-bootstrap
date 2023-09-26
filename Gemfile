@@ -16,6 +16,10 @@ gem 'bootsnap', '~> 1', require: false
 gem 'devise', '~> 4'
 gem 'devise-i18n', '~> 1'
 
+# Elastic APM
+gem 'elastic-apm', '= 4.5.0'
+gem 'http', '= 4.3.0'
+
 # Centralization of locale data collection for Ruby on Rails.
 gem 'rails-i18n', '~> 7'
 
