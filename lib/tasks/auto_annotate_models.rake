@@ -46,7 +46,7 @@ if Rails.env.development?
       'wrapper_open'              => nil,
       'wrapper_close'             => nil,
       'with_comment'              => true,
-      'models'                    => true
+      'models'                    => 'true'
     )
   end
 
