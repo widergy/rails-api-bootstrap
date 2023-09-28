@@ -22,7 +22,7 @@ module AttributeJsonParser
       # the value stops being String (probably either Hash or Array).
       loop_attribute(attr)
     rescue JSON::ParserError
-      errors[attr.to_sym] << 'must be a valid json'
+      errors.add(attr.to_sym, 'must be a valid json')
       throw(:abort)
     end
   end
