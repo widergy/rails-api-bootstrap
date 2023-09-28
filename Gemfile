@@ -24,8 +24,9 @@ gem 'http', '~> 4'
 gem 'rails-i18n', '~> 7'
 
 # Active Admin provides an instant CMS backend.
-# gem 'activeadmin', '~> 3'
-# gem 'activeadmin_addons'
+gem 'activeadmin', '~> 3'
+gem 'activeadmin_addons', '~> 1'
+gem 'activeadmin_json_editor', '0.0.10'
 
 # Use for sending request to 3rd party APIs
 gem 'httparty', '~> 0.21'

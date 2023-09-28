@@ -1,0 +1,26 @@
+panel 'Admin User' do
+  attributes_table_for admin_user do
+    admin_user = locals[:admin_user]
+    row :id do
+      admin_user.id
+    end
+    row :email do
+      admin_user.email
+    end
+    row :current_sign_in_at do
+      admin_user.current_sign_in_at
+    end
+    row :last_sign_in_at do
+      admin_user.last_sign_in_at
+    end
+    row :sign_in_count do
+      admin_user.sign_in_count
+    end
+    row :created_at do
+      admin_user.created_at
+    end
+    row :updated_at do
+      admin_user.updated_at
+    end
+  end
+end
