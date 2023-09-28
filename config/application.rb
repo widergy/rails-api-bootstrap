@@ -59,6 +59,9 @@ module RailsApiBootstrap
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore
 
+    # APM service name
+    config.elastic_apm.service_name = 'rails-api-bootstrap'
+
     Prometheus::Client.config.data_store = Prometheus::Client::DataStores::DirectFileStore.new(dir: '/tmp/prometheus_direct_file_store')
   end
 end

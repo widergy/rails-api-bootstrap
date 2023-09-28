@@ -1,0 +1,1 @@
+enabled: <%= ENV.fetch('ELASTIC_APM_ENABLED', false) %>
