@@ -492,8 +492,8 @@ PLATFORMS
 DEPENDENCIES
   active_model_serializers (~> 0.10)
   activeadmin (~> 3)
-  activeadmin_addons
-  activeadmin_json_editor (~> 0.0.7)
+  activeadmin_addons (~> 1)
+  activeadmin_json_editor (= 0.0.10)
   annotate (~> 3)
   async_request!
   awesome_print (~> 1)
