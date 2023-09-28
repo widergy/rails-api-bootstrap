@@ -10,7 +10,7 @@ on:
 
 jobs:
   build_and_test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Set enviroment variables
     env:
@@ -45,7 +45,7 @@ jobs:
     steps:
     # This action checks-out your repository under $GITHUB_WORKSPACE, so your workflow can access it
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
@@ -57,8 +57,8 @@ jobs:
       run: bundle -v
 
     # Restore bundle cache
-    - name: Cache node modules
-      uses: actions/cache@v1
+    - name: Cache Ruby dependencies
+      uses: actions/cache@v3
       id: bundler-cache
       with:
         path: vendor/bundle
