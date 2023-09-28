@@ -460,11 +460,11 @@ DEPENDENCIES
   devise (~> 4)
   devise-i18n (~> 1)
   dotenv-rails (~> 2)
-  elastic-apm (= 4.5.0)
+  elastic-apm (~> 4)
   factory_bot_rails (~> 6)
   faker (~> 3)
   health_check (~> 3)
-  http (= 4.3.0)
+  http (~> 4)
   httparty (~> 0.21)
   interactor (~> 3)
   jwt (~> 2)
@@ -506,4 +506,4 @@ RUBY VERSION
    ruby 3.0.6p216
 
 BUNDLED WITH
-   2.3.23
+   2.4.19
