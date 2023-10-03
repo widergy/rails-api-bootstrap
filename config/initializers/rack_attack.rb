@@ -69,9 +69,9 @@ module Rack
     #   [503, {}, ['Server Error']] # status  # headers  # body
     # end
 
-    self.throttled_responder = lambda do |env|
+    self.throttled_responder = lambda do |request|
       now = Time.zone.now
-      match_data = env['rack.attack.match_data']
+      match_data = request.env['rack.attack.match_data']
 
       headers = {
         'X-RateLimit-Limit' => match_data[:limit].to_s,
@@ -79,7 +79,7 @@ module Rack
         'X-RateLimit-Reset' => (now + (match_data[:period] - now.to_i % match_data[:period])).to_s
       }
 
-      [429, headers, ["Throttled\n"]]
+      [503, headers, ["Throttled\n"]]
     end
 
     ### Custom Blocklist Response ###
