@@ -7,7 +7,7 @@ module ApiAnalytics
   }.freeze
 
   module AppName
-    RAILS_API_BOOTSTRAP = 'Rails-Api-Bootstrap'.freeze
+    RAILS_API_BOOTSTRAP = 'rails-api-bootstrap'.freeze
   end
 
   module EventsType
