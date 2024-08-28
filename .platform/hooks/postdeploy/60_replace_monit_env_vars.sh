@@ -8,4 +8,5 @@ MONIT_SIDEKIQ_CYCLES=$(/opt/elasticbeanstalk/bin/get-config environment -k MONIT
 sudo sed -i "s/\bMONIT_SIDEKIQ_MAX_MEMORY\b/${MONIT_SIDEKIQ_MAX_MEMORY}/g" /etc/monit.d/sidekiq
 sudo sed -i "s/\bMONIT_SIDEKIQ_CYCLES\b/${MONIT_SIDEKIQ_CYCLES}/g" /etc/monit.d/sidekiq
 
-sudo /bin/systemctl restart monit.service
+echo "---> Starting Monit service" 
+sudo /bin/systemctl start monit.service
