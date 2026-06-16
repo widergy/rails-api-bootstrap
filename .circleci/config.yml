@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 jobs:
   build-and-test:
     working_directory: ~/rails-api-bootstrap
@@ -16,7 +16,7 @@ jobs:
         environment:
           POSTGRES_USER: rails-api-bootstrap
           POSTGRES_DB: rails-api-bootstrap_test
-          POSTGRES_PASSWORD: ""
+          POSTGRES_PASSWORD: ''
 
     steps:
       - checkout
@@ -31,9 +31,9 @@ jobs:
       # Restore bundle cache
       - restore_cache:
           keys:
-          - rails-api-bootstrap-bundle-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - rails-api-bootstrap-bundle-
+            - rails-api-bootstrap-bundle-{{ checksum "Gemfile.lock" }}
+            # fallback to using the latest cache if no exact match is found
+            - rails-api-bootstrap-bundle-
 
       - run:
           name: Bundle install dependencies
