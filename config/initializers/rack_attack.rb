@@ -26,11 +26,11 @@ module Rack
 
     def self.rack_attack_enabled?
       return true if Rails.env.test?
-      Rails.application.secrets.rack_attack_enabled.to_b
+      Rails.configuration.settings.rack_attack_enabled.to_b
     end
 
     def self.max_requests_per_second
-      Rails.application.secrets.rack_attack_max_requests_per_second
+      Rails.configuration.settings.rack_attack_max_requests_per_second
     end
 
     ### Rules ###

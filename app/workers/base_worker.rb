@@ -2,9 +2,9 @@ class BaseWorker
   include WorkerHelpers
   include LambdaEventsTracking
 
-  def execute(model, client_id, *args)
+  def execute(model, client_id, *)
     initialize_client(model, client_id)
-    initialize_variables(*args)
+    initialize_variables(*)
     perform(*perform_args)
   end
 

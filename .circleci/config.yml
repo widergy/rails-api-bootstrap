@@ -1,57 +1,92 @@
+# Widergy
 version: 2.1
+
+aliases:
+  - &deploy-branch-filters
+    filters:
+      branches:
+        only:
+          - qa
+          - /release-.*/
+  - &release-prod-filters
+    filters:
+      branches:
+        only:
+          - master
+  - &widergy-context
+    context:
+      - widergy-aws-github
+
 jobs:
   build-and-test:
     working_directory: ~/rails-api-bootstrap
 
+    resource_class: medium
+
     docker:
-      - image: circleci/ruby:2.6.2-stretch-node
+      - image: cimg/ruby:3.3.7-node
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
           DATABASE_URL: postgres://rails-api-bootstrap@127.0.0.1:5432/rails-api-bootstrap_test
 
-      - image: redis:7.2
+      - image: redis:7.0
 
-      - image: circleci/postgres:9.5-alpine
+      # Postgres docker image that runs tests in memory instead of disk.
+      - image: circleci/postgres:9.5-alpine-ram
         environment:
-          POSTGRES_USER: rails-api-bootstrap
-          POSTGRES_DB: rails-api-bootstrap_test
+          POSTGRES_USER: postgres
+          POSTGRES_DB: postgres
           POSTGRES_PASSWORD: ''
 
     steps:
       - checkout
 
-      - run: echo "USING CIRCLE 2.0"
-
-      # Show bundler version
+      # El Gemfile.lock se resuelve con Bundler 4 y la imagen trae una 2.x, que no
+      # entiende ni el formato del lock ni los `bundle config set` de abajo.
       - run:
-          name: Which bundler?
-          command: bundle -v
+          name: Install the bundler version the lockfile was built with
+          command: |
+            BUNDLER_VERSION=$(tail -n 1 Gemfile.lock | tr -d '[:space:]')
+            gem install bundler --version "$BUNDLER_VERSION" --no-document
+            bundle -v
 
-      # Restore bundle cache
       - restore_cache:
           keys:
             - rails-api-bootstrap-bundle-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
             - rails-api-bootstrap-bundle-
 
+      # Bundler 4 removio los flags --path y --without: ahora van por config local.
       - run:
           name: Bundle install dependencies
           command: |
-            bundle check --path vendor/bundle || bundle install --without development --jobs=4 --retry=3 --path vendor/bundle
+            bundle config set --local path vendor/bundle
+            bundle config set --local without development
+            bundle check || bundle install --jobs=4 --retry=3
 
-      # Show rails version
       - run:
           name: Which rails?
           command: bundle show rails
 
-      # Store bundle cache
       - save_cache:
           key: rails-api-bootstrap-bundle-{{ checksum "Gemfile.lock" }}
           paths:
             - ~/rails-api-bootstrap/vendor/bundle
 
-      # Database setup
+      - run:
+          name: Install PostgreSQL client
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y postgresql-client
+
+      # database.yml resuelve el usuario con DB_USERNAME y default rails-api-bootstrap,
+      # y la imagen de postgres arranca solo con el rol postgres.
+      - run:
+          name: Create DB role
+          command: |
+            psql -h 127.0.0.1 -U postgres -c "CREATE ROLE \"rails-api-bootstrap\" WITH LOGIN CREATEDB;"
+
       - run:
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
@@ -62,18 +97,27 @@ jobs:
             bundle exec rake db:create
             bundle exec rake db:schema:load --trace
 
-      # Rubocop
       - run:
           name: Run Rubocop
-          command: bundle exec rubocop app spec -R --format simple
+          command: bundle exec rubocop --parallel --format simple
 
-      # Tests
       - run:
           name: Run Tests
           command: bundle exec rspec
 
 workflows:
-  version: 2
   build-and-test:
     jobs:
-      - build-and-test
+      - build-and-test:
+          <<: *widergy-context
+          <<: *release-prod-filters
+          name: build-and-test-master
+      - approval-build-and-test:
+          <<: *deploy-branch-filters
+          type: approval
+      - build-and-test:
+          <<: *widergy-context
+          <<: *deploy-branch-filters
+          name: build-and-test-branch
+          requires:
+            - approval-build-and-test

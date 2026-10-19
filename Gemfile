@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '~> 3.0.0'
+ruby '~> 3.3.7'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 8.1.0'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1'
@@ -13,15 +13,15 @@ gem 'pg', '~> 1'
 gem 'bootsnap', '~> 1', require: false
 
 # Authentication
-gem 'devise', '~> 4'
+gem 'devise', '~> 5'
 gem 'devise-i18n', '~> 1'
 
 # Elastic APM
 gem 'elastic-apm', '~> 4'
-gem 'http', '~> 4'
+gem 'http', '~> 6'
 
 # Centralization of locale data collection for Ruby on Rails.
-gem 'rails-i18n', '~> 7'
+gem 'rails-i18n', '~> 8'
 
 # Active Admin provides an instant CMS backend.
 gem 'activeadmin', '~> 3'
@@ -29,7 +29,7 @@ gem 'activeadmin_addons', '~> 1'
 gem 'activeadmin_json_editor', '0.0.10'
 
 # Use for sending request to 3rd party APIs
-gem 'httparty', '~> 0.21'
+gem 'httparty', '~> 0.24'
 
 # For PORO management
 gem 'interactor', '~> 3'
@@ -38,7 +38,7 @@ gem 'interactor', '~> 3'
 gem 'active_model_serializers', '~> 0.10'
 
 # Sidekiq
-gem 'sidekiq', '~> 7'
+gem 'sidekiq', '~> 8'
 gem 'sidekiq-failures', '~> 1'
 # gem 'sidekiq_mailer', '~> 0.0.8'
 # gem 'sidekiq-scheduler', '~> 5'
@@ -47,10 +47,10 @@ gem 'sidekiq-failures', '~> 1'
 gem 'rollbar', '~> 3'
 
 # A ruby implementation of the RFC 7519 OAuth JSON Web Token (JWT) standard.
-gem 'jwt', '~> 2'
+gem 'jwt', '~> 3'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing, making cross-origin AJAX possible
-gem 'rack-cors', '~> 2', require: 'rack/cors'
+gem 'rack-cors', '~> 3', require: 'rack/cors'
 
 # Use for DoS attacks
 gem 'rack-attack', '~> 6'
@@ -63,7 +63,7 @@ gem 'health_check', '~> 3'
 gem 'wannabe_bool', '~> 0.7'
 
 # Gem to detect N+1 queries
-gem 'bullet', '~> 7'
+gem 'bullet', '~> 8'
 
 # (alternative to active_model_serializers) A lightning fast JSON:API serializer for Ruby Objects.
 # gem 'fast_jsonapi', '~> 1.5'
@@ -80,12 +80,6 @@ gem 'bullet', '~> 7'
 
 # Rescue and report exceptions in non-critical code
 # gem 'safely_block', '~> 0.4'
-
-# A plugin for versioning Rails based RESTful APIs.
-gem 'versionist', '~> 2'
-
-# For handling requests that relies in 3rd party API calls
-gem 'async_request', git: 'https://github.com/widergy/async-requests.git', branch: 'version-0-10-standarized-logs'
 
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator for modern
 # web app frameworks and ORMs
@@ -107,10 +101,7 @@ gem 'kaminari', '~> 1'
 # gem 'jbuilder', '~> 2'
 
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 5'
-
-# Use for caching data
-gem 'redis-rails', '~> 5'
+gem 'redis', '~> 6'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3'
@@ -125,22 +116,22 @@ gem 'redis-rails', '~> 5'
 # gem 'fog', '~> 2'
 
 # Use for accessing AWS
-gem 'aws-sdk-rails', '~> 3'
+gem 'aws-sdk-rails', '~> 5'
 gem 'aws-sdk-secretsmanager', '~> 1'
 
 # Postgres insights
-gem 'pghero', '~> 3'
+gem 'pghero', '~> 4'
 
 # Metric monitoring
-gem 'prometheus-client'
+gem 'prometheus-client', '~> 5'
 
 group :test do
   # Rspec helpers
-  gem 'rspec-sidekiq', '~> 4'
-  gem 'shoulda-matchers', '~> 5'
+  gem 'rspec-sidekiq', '~> 5'
+  gem 'shoulda-matchers', '~> 8'
 
   # Code coverage
-  gem 'simplecov', '~> 0.22', require: false
+  gem 'simplecov', '~> 1.3', require: false
 
   # Mocking
   gem 'timecop', '~> 0.9'
@@ -153,17 +144,17 @@ end
 
 group :development, :test do
   # Use Puma as the app server
-  gem 'puma', '~> 6.3'
+  gem 'puma', '~> 8'
 
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', '~> 11', platforms: %i[mri mingw x64_mingw]
+  gem 'byebug', '~> 13', platforms: %i[mri windows]
 
   # Adds step-by-step debugging and stack navigation capabilities to pry using byebug.
   # gem 'pry-byebug', '~> 3'
 
   # RSpec testing framework for Ruby on Rails as a drop-in alternative to its default testing
   # framework, Minitest.
-  gem 'rspec-rails', '~> 6'
+  gem 'rspec-rails', '~> 8'
 
   # Awesome Print is a Ruby library that pretty prints Ruby objects in full color exposing their
   # internal structure with proper indentation
@@ -175,16 +166,17 @@ group :development, :test do
 
   # Use for storing credentials and not uploading them to github. Loads ENV variables from .env
   # file in base folder
-  gem 'dotenv-rails', '~> 2'
+  gem 'dotenv-rails', '~> 3'
 
   # Code style
   gem 'rubocop', '~> 1', require: false
+  gem 'rubocop-factory_bot', '~> 2', require: false
   gem 'rubocop-performance', '~> 1', require: false
   gem 'rubocop-rails', '~> 2', require: false
-  gem 'rubocop-rspec', '~> 2', require: false
+  gem 'rubocop-rspec', '~> 3', require: false
 
   # Static analysis for security vulnerabilities
-  gem 'brakeman', '~> 6', require: false
+  gem 'brakeman', '~> 8', require: false
 
   # Code quality
   gem 'rails_best_practices', '~> 1', require: false
@@ -198,18 +190,12 @@ group :development do
   # The Listen gem listens to file modifications and notifies you about the changes.
   gem 'listen', '~> 3'
 
-  # Spring speeds up development by keeping your application running in the background.
-  # Read more: https://github.com/rails/spring
-  gem 'spring', '~> 4'
-  gem 'spring-commands-rspec', '~> 1'
-  gem 'spring-watcher-listen', '~> 2'
-
   # Better Errors replaces the standard Rails error page with a much better and more useful
   # error page.
   gem 'better_errors', '~> 2'
 
   # Add a comment summarizing the current schema to the top or bottom of each of your models
-  gem 'annotate', '~> 3'
+  gem 'annotaterb', '~> 4'
 
   # Required gem to use RailsPanel Chrome extension
   # gem 'meta_request', '~> 0.7'

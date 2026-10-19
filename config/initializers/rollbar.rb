@@ -1,5 +1,5 @@
 Rollbar.configure do |config|
-  config.access_token = Rails.application.secrets.rollbar_access_token
+  config.access_token = Rails.configuration.settings.rollbar_access_token
 
   config.enabled = false if Rails.env.test? || Rails.env.development?
 
@@ -42,5 +42,5 @@ Rollbar.configure do |config|
   # You can supply custom Sidekiq options:
   # config.use_sidekiq 'queue' => 'default'
 
-  config.environment = Rails.application.secrets.rollbar_environment
+  config.environment = Rails.configuration.settings.rollbar_environment
 end

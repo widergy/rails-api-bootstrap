@@ -25,7 +25,7 @@ Bundler.require(*Rails.groups)
 module RailsApiBootstrap
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -47,8 +47,8 @@ module RailsApiBootstrap
     # Sets the default time zone
     config.time_zone = 'America/Argentina/Buenos_Aires'
 
-    # Using legacy connection handling is deprecated
-    config.active_record.legacy_connection_handling = false
+    # Application settings, reachable as Rails.configuration.settings.<key>
+    config.settings = config_for(:settings)
 
     # Tell your app to use the Rack::Attack middleware
     config.middleware.use Rack::Attack
