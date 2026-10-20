@@ -25,7 +25,7 @@ Bundler.require(*Rails.groups)
 module RailsApiBootstrap
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 8.1
 
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration can go into files in config/initializers
@@ -41,14 +41,20 @@ module RailsApiBootstrap
     # Configure Active Job to work with Sidekiq
     config.active_job.queue_adapter = :sidekiq
 
-    # Adds lib folder to eager load paths
-    config.eager_load_paths << Rails.root.join('lib')
+    # ActiveStorage is loaded but unused here. Without this, booting warns that
+    # generating variants needs the image_processing gem. An app that does store
+    # files adds that gem and removes this line.
+    config.active_storage.variant_processor = :disabled
+
+    # Adds lib to the autoload and eager load paths. Rails 7.1+ replaces the manual
+    # eager_load_paths push; `ignore` keeps the non-reloadable subdirectories out.
+    config.autoload_lib(ignore: %w[assets tasks])
 
     # Sets the default time zone
     config.time_zone = 'America/Argentina/Buenos_Aires'
 
-    # Using legacy connection handling is deprecated
-    config.active_record.legacy_connection_handling = false
+    # Application settings, reachable as Rails.configuration.settings.<key>
+    config.settings = config_for(:settings)
 
     # Tell your app to use the Rack::Attack middleware
     config.middleware.use Rack::Attack

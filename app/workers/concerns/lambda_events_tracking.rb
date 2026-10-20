@@ -6,7 +6,8 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
 
   included do
     include HTTParty
-    base_uri Rails.application.secrets.api_gateway_lambda_base_url
+
+    base_uri Rails.configuration.settings.api_gateway_lambda_base_url
   end
 
   def track_entity_event(event:, channel:, **options)
@@ -93,8 +94,8 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
   end
 
   def entity_event_id_type
-    @entity_event_id_type ||= user_or_client_or_nil&.class&.to_s&.downcase ||
-                              ApiAnalytics::ANONYMOUS_USER
+    entity = user_or_client_or_nil
+    @entity_event_id_type ||= entity ? entity.class.to_s.downcase : ApiAnalytics::ANONYMOUS_USER
   end
 
   def entity_id(date)
@@ -119,7 +120,7 @@ module LambdaEventsTracking # rubocop:disable Metrics/ModuleLength
   end
 
   def api_gateway_key
-    @api_gateway_key ||= Rails.application.secrets.api_gateway_lambda_key
+    @api_gateway_key ||= Rails.configuration.settings.api_gateway_lambda_key
   end
 
   def headers

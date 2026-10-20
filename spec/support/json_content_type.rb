@@ -2,28 +2,28 @@
 # https://github.com/rails/rails/issues/27215
 module Request
   module JSONContentType
-    def get(*args)
-      super(*json_args(*args))
+    def get(*)
+      super(*json_args(*))
     end
 
-    def post(*args)
-      super(*json_args(*args))
+    def post(*)
+      super(*json_args(*))
     end
 
-    def update(*args)
-      super(*json_args(*args))
+    def update(*)
+      super(*json_args(*))
     end
 
-    def patch(*args)
-      super(*json_args(*args))
+    def patch(*)
+      super(*json_args(*))
     end
 
-    def put(*args)
-      super(*json_args(*args))
+    def put(*)
+      super(*json_args(*))
     end
 
-    def delete(*args)
-      super(*json_args(*args))
+    def delete(*)
+      super(*json_args(*))
     end
 
     def json_args(path, params = {})

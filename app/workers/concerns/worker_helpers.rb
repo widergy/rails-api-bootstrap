@@ -4,11 +4,15 @@ module WorkerHelpers # rubocop:disable Metrics/ModuleLength
   private
 
   def user_or_nil
-    @user ||= User.find_by(id: @user_id)
+    return @user if defined?(@user)
+
+    @user = User.find_by(id: @user_id)
   end
 
   def client_or_nil
-    @client ||= @model.find_by(id: @client_id)
+    return @client if defined?(@client)
+
+    @client = @model.find_by(id: @client_id)
   end
 
   def user_or_client_or_nil

@@ -2,6 +2,7 @@
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - spec/support/spec_helper.rb
     - spec/rails_helper.rb
@@ -19,12 +20,7 @@ Layout/LineLength:
     - spec/**/*
     - config/routes.rb
 
-Layout/HashAlignment:
-  Enabled: true
-  Exclude:
-    - lib/tasks/auto_annotate_models.rake
-
-HasAndBelongsToMany:
+Rails/HasAndBelongsToMany:
   Enabled: false
 
 Metrics/MethodLength:
@@ -49,7 +45,6 @@ Metrics/ClassLength:
 Metrics/BlockLength:
   Exclude:
     - spec/**/*
-    - lib/tasks/auto_annotate_models.rake
     - app/admin/**/*
     - app/views/admin/**/*
     - config/routes.rb
@@ -63,13 +58,16 @@ Rails/UniqueValidationWithoutIndex:
 
 # rubocop-rspec custom configurations
 
-require:
+plugins:
   - rubocop-rspec
   - rubocop-rails
   - rubocop-factory_bot
   - rubocop-performance
 
-RSpec/FilePath:
+RSpec/SpecFilePathFormat:
+  Enabled: false
+
+RSpec/SpecFilePathSuffix:
   Enabled: false
 
 Naming/VariableNumber:
@@ -104,10 +102,6 @@ RSpec/VerifiedDoubles:
 
 RSpec/NamedSubject:
   Enabled: false
-
-Rails/RakeEnvironment:
-  Exclude:
-    - lib/tasks/auto_annotate_models.rake
 
 RSpec/MultipleMemoizedHelpers:
   Max: 20

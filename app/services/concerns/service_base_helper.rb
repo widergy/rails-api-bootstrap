@@ -94,19 +94,19 @@ module ServiceBaseHelper # rubocop:disable Metrics/ModuleLength
 
   def log_response_from_service(response, service = nil)
     Rails.logger.info do
-      receiving_response(service)
-      "ID: #{@utility&.id}, NAME: #{@utility&.name} \n" \
+      "#{receiving_response(service)}" \
+        "ID: #{@utility&.id}, NAME: #{@utility&.name} \n" \
         "Status Code: #{response&.code} \n" \
         "Content-Type: #{response&.headers&.fetch('content-type', {})} \n" \
-        "Body:#{response&.body}\n" \
+        "Body:#{response&.body}\n"
     end
   end
 
   def receiving_response(service)
     if service.nil?
-      "\n\nReceiving response from Utility - " \
+      "\n\nReceiving response from Utility - "
     else
-      "\n\nReceiving response from #{service} API for Utility - " \
+      "\n\nReceiving response from #{service} API for Utility - "
     end
   end
 

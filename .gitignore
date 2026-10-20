@@ -37,8 +37,9 @@ coverage/*
 # Ignore debugging history
 .byebug_history
 
-# Ignore .env files
+# Ignore .env files, but keep the template
 .env*
+!.env.example
 
 /public/packs
 /public/packs-test

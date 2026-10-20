@@ -6,9 +6,9 @@
 # Read more: https://github.com/cyu/rack-cors
 
 Rails.application.config.middleware.insert_before 0, Rack::Cors do
-  if Rails.application.secrets.cors_origins.present?
+  if Rails.configuration.settings.cors_origins.present?
     allow do
-      allowed_origins = Rails.application.secrets.cors_origins.split(':').map do |domain|
+      allowed_origins = Rails.configuration.settings.cors_origins.split(':').map do |domain|
         domain.gsub!('.', '\.')
         %r(\Ahttps?:\/\/([a-zA-Z\d-]+\.){0,}#{domain}(:\d+)?\/?\z)
       end

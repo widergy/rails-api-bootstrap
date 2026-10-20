@@ -18,7 +18,7 @@ module UtilityService
 
     Response = Struct.new(:code, :body, :headers)
 
-    def method_missing(method_name, *_args, &_block)
+    def method_missing(method_name, *_args, &)
       return super unless @utility_service_methods.include?(method_name)
 
       Rails.logger.error do

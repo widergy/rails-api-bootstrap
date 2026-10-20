@@ -8,6 +8,7 @@ describe HealthCheckController do
 
     before do
       request.headers['Accept'] = 'application/json'
+      allow(Sidekiq.logger).to receive(:info)
     end
 
     context 'when the Utility-ID header is not sent' do

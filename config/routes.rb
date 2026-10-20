@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   # API Endpoints
-  api_version(module: 'api/v1', path: { value: 'api/v1' }, defaults: { format: :json }) do
+  namespace 'api/v1', as: 'api_v1', defaults: { format: :json } do
     # namespace :users do
     #   resource :sessions, only: :create
     # end
@@ -26,6 +26,7 @@ end
 
 # == Route Map
 #
+# Routes for application:
 #                          Prefix Verb       URI Pattern                                                                                       Controller#Action
 #          new_admin_user_session GET        /admin/login(.:format)                                                                            active_admin/devise/sessions#new
 #              admin_user_session POST       /admin/login(.:format)                                                                            active_admin/devise/sessions#create
@@ -65,9 +66,9 @@ end
 #              rails_disk_service GET        /rails/active_storage/disk/:encoded_key/*filename(.:format)                                       active_storage/disk#show
 #       update_rails_disk_service PUT        /rails/active_storage/disk/:encoded_token(.:format)                                               active_storage/disk#update
 #            rails_direct_uploads POST       /rails/active_storage/direct_uploads(.:format)                                                    active_storage/direct_uploads#create
-#                   async_request            /async_request                                                                                    AsyncRequest::Engine
 #
 # Routes for PgHero::Engine:
+#                    Prefix Verb URI Pattern                                      Controller#Action
 #                     space GET  (/:database)/space(.:format)                     pg_hero/home#space
 #            relation_space GET  (/:database)/space/:relation(.:format)           pg_hero/home#relation_space
 #               index_bloat GET  (/:database)/index_bloat(.:format)               pg_hero/home#index_bloat
@@ -93,6 +94,3 @@ end
 #              system_stats GET  (/:database)/system_stats(.:format)              redirect(301, system)
 #               query_stats GET  (/:database)/query_stats(.:format)               redirect(301, queries)
 #                      root GET  /(:database)(.:format)                           pg_hero/home#index
-#
-# Routes for AsyncRequest::Engine:
-#    job GET  /jobs/:id(.:format) async_request/jobs#show

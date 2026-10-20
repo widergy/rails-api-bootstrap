@@ -2,7 +2,7 @@ Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   # Code is not reloaded between requests.
-  config.cache_classes = true
+  config.enable_reloading = false
 
   # Eager load code on boot. This eager loads most of Rails and
   # your application in memory, allowing both threaded web servers
@@ -51,7 +51,13 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
-  # config.cache_store = :mem_cache_store
+  # Rails 8 ships its own Redis store; :redis_store (redis-rails) only supports Rails < 8.
+  # Code ported from UtilityGO-API that reaches the raw client with Rails.cache.data or
+  # Rails.cache.instance_variable_get(:@data) has to use Rails.cache.redis.with { |r| ... }
+  # instead: here the client lives behind a connection pool.
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch('REDIS_URL') { "redis://#{ENV.fetch('REDIS_1_PORT_6379_TCP_ADDR', '127.0.0.1')}:6379" }
+  }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   # config.active_job.queue_adapter     = :resque
@@ -77,11 +83,17 @@ Rails.application.configure do
   # require 'syslog/logger'
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new 'app-name')
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ActiveSupport::Logger.new(STDOUT)
-    logger.formatter = config.log_formatter
-    config.logger    = ActiveSupport::TaggedLogging.new(logger)
-  end
+  # The app runs in containers, so logs always go to STDOUT for the platform to collect.
+  logger           = ActiveSupport::Logger.new($stdout)
+  logger.formatter = config.log_formatter
+  config.logger    = ActiveSupport::TaggedLogging.new(logger)
+
+  # Health checks run every few seconds and would otherwise flood the logs. A regexp so
+  # it also covers the probes that hit /health_check/all and /health_check/site.
+  config.silence_healthcheck_path = %r{\A/health_check\b}
+
+  # TLS terminates at the load balancer, so the app only ever sees plain HTTP.
+  config.assume_ssl = true
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false

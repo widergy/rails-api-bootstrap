@@ -1,8 +1,6 @@
 module RequestPerformer # rubocop:disable Metrics/ModuleLength
   extend ActiveSupport::Concern
 
-  private
-
   HTTP_TIMEOUT_ERRORS = [Net::OpenTimeout, Net::ReadTimeout].freeze
 
   ALL_HTTP_ERRORS = [
@@ -12,7 +10,9 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
     OpenSSL::SSL::SSLError
   ].freeze
 
-  # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
+  private
+
+  # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength
   def perform_request(http_verb, url, options = {})
     retries = 0
     url = build_url(url)
@@ -29,7 +29,7 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
       build_error_response(504, 'gateway_timeout')
     rescue *ALL_HTTP_ERRORS => e
       log_warning(e, http_verb: http_verb, url: url)
-      retry if (retries += 1) < Rails.application.secrets.request_retries
+      retry if (retries += 1) < Rails.configuration.settings.request_retries
       log_and_report_error(e, http_verb: http_verb, url: url)
       notify_failed_external_request
       build_error_response(500, 'internal_server_error')
@@ -45,7 +45,6 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
       build_error_response(500, 'internal_server_error')
     end
   end
-  # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
   def build_error_response(code, error, message = nil, meta = nil)
     self.class::Response.new(
@@ -57,7 +56,7 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
 
   def disable_utility; end
 
-  # rubocop:disable Metrics/MethodLength
+  # rubocop:disable-next Metrics/MethodLength
   def process_response(response, success_response_method: nil, failed_response_method: nil)
     log_response(response) if debug_log_level?
     case response.code
@@ -73,7 +72,6 @@ module RequestPerformer # rubocop:disable Metrics/ModuleLength
       service_unavailable_response(response)
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   def debug_log_level?
     Rails.application.config.log_level == :debug

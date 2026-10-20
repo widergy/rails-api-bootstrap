@@ -21,14 +21,13 @@ environment ENV.fetch("RAILS_ENV") { "development" }
 # Workers do not work on JRuby or Windows (both of which do not support
 # processes).
 #
-# workers ENV.fetch("WEB_CONCURRENCY") { 2 }
+# Defaults to 0 so development and test stay single process; the deployed
+# environments set WEB_CONCURRENCY to the number of cores of the pod.
+workers ENV.fetch("WEB_CONCURRENCY") { 0 }
 
-# Use the `preload_app!` method when specifying a `workers` number.
-# This directive tells Puma to first boot the application and load code
-# before forking the application. This takes advantage of Copy On Write
-# process behavior so workers use less memory.
-#
-# preload_app!
+# Boots the app before forking so the workers share memory through copy on write.
+# Only has an effect when workers > 0.
+preload_app!
 
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

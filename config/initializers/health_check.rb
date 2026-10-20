@@ -44,7 +44,7 @@ HealthCheck.setup do |config|
   #   default_queue = Sidekiq::Queue.new
   #   queue_size = default_queue.size
   #   queue_latency = default_queue.latency
-  #   queue_degraded = queue_size > Rails.application.secrets.sidekiq_queue_size && queue_latency > Rails.application.secrets.sidekiq_queue_latency
+  #   queue_degraded = queue_size > Rails.configuration.settings.sidekiq_queue_size && queue_latency > Rails.configuration.settings.sidekiq_queue_latency
   #   queue_degraded ? "There are #{queue_size} Sidekiq jobs enqueued with a latency of #{queue_latency} secs." : ''
   # end
 

@@ -1,24 +1,23 @@
 #!/bin/sh
+# Corre Rubocop y Rspec antes de pushear. Se instala con `script/install-hooks.sh`.
+# Para saltearlo en un push puntual: git push --no-verify
 
-echo "\033[34mRunning Rubocop\033[0m"
-RUN_CHECK_CMD='bundle exec rubocop app spec -R --format simple'
-RUN_TESTS_OUTPUT=`${RUN_CHECK_CMD}`
+set -e
 
-if [ $? -eq 1 ]
-then
-  echo "\033[34mCan't commit! You have rubocop offences!!!\033[0m"
+azul() { printf '\033[34m%s\033[0m\n' "$1"; }
+rojo() { printf '\033[31m%s\033[0m\n' "$1"; }
+
+azul 'Running Rubocop'
+if ! bundle exec rubocop --parallel --format simple; then
+  rojo "Can't push! You have rubocop offences!!!"
   exit 1
 fi
 
-echo "\033[34mRunning Rspec tests\033[0m"
-RUN_CHECK_CMD='bundle exec rspec spec -fd'
-RUN_TESTS_OUTPUT=`${RUN_CHECK_CMD}`
-
-if [ $? -eq 1 ]
-then
-  echo "\033[34mCan't commit! You've broken Rspec tests!!!\033[0m"
+azul 'Running Rspec tests'
+if ! bundle exec rspec; then
+  rojo "Can't push! You've broken Rspec tests!!!"
   exit 1
 fi
 
-echo "\033[34mAll checks passed. You didn't break anything. Congrats!\n\033[0m"
+azul "All checks passed. You didn't break anything. Congrats!"
 exit 0

@@ -131,27 +131,40 @@ And then execute `pry -r ./config/environment` instead of `rails console`.
 - For running code style analyzer:
 
 ```bash
-  bundle exec rubocop app spec
+  bundle exec rubocop
 ```
 
-#### Git pre push hook
+Run it without path arguments so it honors the `AllCops/Exclude` list in
+[.rubocop.yml](.rubocop.yml).
 
-You can modify the [pre-push.sh](script/pre-push.sh) script to run different scripts before you `git push` (e.g Rspec, Linters). Then you need to run the following:
+#### Git hooks
+
+Run this once after cloning:
 
 ```bash
-  chmod +x script/pre-push.sh
-  sudo ln -s ../../script/pre-push.sh .git/hooks/pre-push
+  ./script/install-hooks.sh
 ```
 
-You can skip the hook by adding `--no-verify` to your `git push`.
+It links both hooks into `.git/hooks/`, which is not versioned:
+
+| hook | script | what it runs |
+|---|---|---|
+| `pre-commit` | [pre-commit.sh](script/pre-commit.sh) | Rubocop over the staged `.rb`/`.rake` files |
+| `pre-push` | [pre-push.sh](script/pre-push.sh) | Rubocop over the whole project, then the full Rspec suite |
+
+The commit hook only lints what you are about to commit so committing stays fast;
+the full suite runs on push.
+
+You can skip either one with `--no-verify`:
+
+```bash
+  git commit --no-verify
+  git push --no-verify
+```
 
 ## Running with Docker
 
 Read more [here](docs/docker.md)
-
-## Deploy Guide
-
-Read more [here](docs/deploy.md)
 
 ## Rollbar Configuration
 
@@ -176,9 +189,9 @@ To run the static analyzer for security vulnerabilities run:
 
 ## Dotenv
 
-We use [dotenv](https://github.com/bkeepers/dotenv) to set up our environment variables in combination with `secrets.yml`.
+We use [dotenv](https://github.com/bkeepers/dotenv) to set up our environment variables in combination with `settings.yml`.
 
-For example, you could have the following `secrets.yml`:
+For example, you could have the following `settings.yml`:
 
 ```yml
 production: &production
@@ -193,7 +206,17 @@ FOO=1
 BAR=2
 ```
 
-When the application loads up, `Rails.application.secrets.foo` will equal `ENV['FOO']`, making the environment variables reachable across the Rails app. The `.env` will be ignored by `git` so it won't be pushed into the repository, thus keeping tokens and passwords safe.
+When the application loads up, `Rails.configuration.settings.foo` will equal `ENV['FOO']`, making the environment variables reachable across the Rails app. The `.env` will be ignored by `git` so it won't be pushed into the repository, thus keeping tokens and passwords safe.
+
+`settings.yml` is loaded in `config/application.rb` with `config_for(:settings)`. It replaces
+`secrets.yml`, which Rails removed in 7.2 along with `Rails.application.secrets`.
+
+`secret_key_base` does not live in `settings.yml`: Rails reads it from `ENV['SECRET_KEY_BASE']`
+and generates a local one for development and test.
+
+In deployed environments the variables themselves come from AWS Secrets Manager. See
+`config/aws_secrets_manager.rb`, which runs before the application boots and loads every secret
+under the `Bootstrap-<environment>` prefix into `ENV`.
 
 ## PGHero Authentication
 
@@ -218,7 +241,6 @@ Install the [Rails Panel Extension](https://chrome.google.com/webstore/detail/ra
 You can find more documentation in the [docs](docs) folder. The available docs are:
 
 - [Run locally with Docker](docs/docker.md)
-- [Deploy guide](docs/deploy.md)
 - [Locales structure](docs/locales.md)
 - [Seeds](docs/seeds.md)
 
