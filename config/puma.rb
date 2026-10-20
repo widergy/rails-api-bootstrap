@@ -29,10 +29,5 @@ workers ENV.fetch("WEB_CONCURRENCY") { 0 }
 # Only has an effect when workers > 0.
 preload_app!
 
-# Each forked worker needs its own connection pool.
-on_worker_boot do
-  ActiveRecord::Base.establish_connection if defined?(ActiveRecord::Base)
-end
-
 # Allow puma to be restarted by `rails restart` command.
 plugin :tmp_restart

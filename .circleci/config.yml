@@ -269,7 +269,7 @@ jobs:
             git config --global user.name widergy-circleci-iac
             cd widergy-argocd-gitops
 
-            find $APP_PATH -type f -name "$FILE_PATTERN" ! -name '*connector*' ! -name "$EXCLUDE_PATTERN" | xargs sed -i 's/^\(\s*tag:\s*\).*/\1'"$CIRCLE_SHA1"'/'
+            find $APP_PATH -type f -name "$FILE_PATTERN" ! -name "$EXCLUDE_PATTERN" | xargs sed -i 's/^\(\s*tag:\s*\).*/\1'"$CIRCLE_SHA1"'/'
 
             git add .
             git commit -m "tag: update rails-api-bootstrap ${ENVIRONMENT} image tag to ${CIRCLE_SHA1}"
@@ -295,6 +295,14 @@ jobs:
                   else
                     echo "energy-bot already triggered by another job for $TAG, skipping"
                   fi
+      - when:
+          condition:
+            equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+          steps:
+            - run:
+                name: Notify deploy webhook
+                command: |
+                  curl -s -X POST -u "$DEPLOY_NOTIFICATION_WEBHOOK_USER:$DEPLOY_NOTIFICATION_WEBHOOK_PASSWORD" -H "Content-Type: application/json" -d '{"repo":"'"$CIRCLE_PROJECT_REPONAME"'","pipeline_id":"'"$CIRCLE_PIPELINE_ID"'"}' "$DEPLOY_NOTIFICATION_WEBHOOK_URL" || true
 
   check-new-commits:
     docker:

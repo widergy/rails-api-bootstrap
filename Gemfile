@@ -205,7 +205,4 @@ group :development do
 
   # Use for generate a Entity-Relationship diagram based on the application's Active Record models
   # gem 'rails-erd', '~> 1'
-
-  # Use Capistrano for deployment
-  # gem 'capistrano-rails', '~> 1'
 end

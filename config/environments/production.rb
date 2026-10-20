@@ -51,6 +51,10 @@ Rails.application.configure do
   config.log_tags = [ :request_id ]
 
   # Use a different cache store in production.
+  # Rails 8 ships its own Redis store; :redis_store (redis-rails) only supports Rails < 8.
+  # Code ported from UtilityGO-API that reaches the raw client with Rails.cache.data or
+  # Rails.cache.instance_variable_get(:@data) has to use Rails.cache.redis.with { |r| ... }
+  # instead: here the client lives behind a connection pool.
   config.cache_store = :redis_cache_store, {
     url: ENV.fetch('REDIS_URL') { "redis://#{ENV.fetch('REDIS_1_PORT_6379_TCP_ADDR', '127.0.0.1')}:6379" }
   }
@@ -84,8 +88,9 @@ Rails.application.configure do
   logger.formatter = config.log_formatter
   config.logger    = ActiveSupport::TaggedLogging.new(logger)
 
-  # Health checks run every few seconds and would otherwise flood the logs.
-  config.silence_healthcheck_path = '/health_check'
+  # Health checks run every few seconds and would otherwise flood the logs. A regexp so
+  # it also covers the probes that hit /health_check/all and /health_check/site.
+  config.silence_healthcheck_path = %r{\A/health_check\b}
 
   # TLS terminates at the load balancer, so the app only ever sees plain HTTP.
   config.assume_ssl = true
