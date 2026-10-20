@@ -2,6 +2,7 @@
 
 AllCops:
   NewCops: enable
+  SuggestExtensions: false
   Exclude:
     - spec/support/spec_helper.rb
     - spec/rails_helper.rb

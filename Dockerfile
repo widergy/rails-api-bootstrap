@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.10
 
 # === Stage 1: Build Stage ===
-FROM ruby:3.3.7-slim AS builder
+FROM ruby:3.3.9-slim AS builder
 
 ARG RAILS_ENV=production
 
@@ -35,7 +35,7 @@ ENV SECRET_KEY_BASE=dummyKey
 RUN bundle exec rake assets:precompile
 
 # === Stage 2: Production Stage ===
-FROM ruby:3.3.7-slim
+FROM ruby:3.3.9-slim
 
 RUN apt-get update -qq && apt-get install -y \
   libpq5 \

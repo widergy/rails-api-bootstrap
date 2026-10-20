@@ -42,7 +42,7 @@ jobs:
     resource_class: medium
 
     docker:
-      - image: cimg/ruby:3.3.7-node
+      - image: cimg/ruby:3.3.9-node
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
@@ -136,6 +136,10 @@ jobs:
       - run:
           name: Run Rubocop
           command: bundle exec rubocop --parallel --format simple
+
+      - run:
+          name: Run Brakeman
+          command: bundle exec brakeman -q --no-pager
 
       - run:
           name: Run Tests

@@ -41,8 +41,14 @@ module RailsApiBootstrap
     # Configure Active Job to work with Sidekiq
     config.active_job.queue_adapter = :sidekiq
 
-    # Adds lib folder to eager load paths
-    config.eager_load_paths << Rails.root.join('lib')
+    # ActiveStorage is loaded but unused here. Without this, booting warns that
+    # generating variants needs the image_processing gem. An app that does store
+    # files adds that gem and removes this line.
+    config.active_storage.variant_processor = :disabled
+
+    # Adds lib to the autoload and eager load paths. Rails 7.1+ replaces the manual
+    # eager_load_paths push; `ignore` keeps the non-reloadable subdirectories out.
+    config.autoload_lib(ignore: %w[assets tasks])
 
     # Sets the default time zone
     config.time_zone = 'America/Argentina/Buenos_Aires'
