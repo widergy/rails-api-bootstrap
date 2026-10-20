@@ -13,6 +13,24 @@ aliases:
       branches:
         only:
           - master
+  - &qa-filters
+    filters:
+      branches:
+        only:
+          - qa
+  - &stage-filters
+    filters:
+      branches:
+        only:
+          - /release-.*/
+  - &prod-filters
+    filters:
+      tags:
+        only:
+          - /v.*/
+      branches:
+        ignore:
+          - /.*/
   - &widergy-context
     context:
       - widergy-aws-github
@@ -32,18 +50,17 @@ jobs:
 
       - image: redis:7.0
 
-      # Postgres docker image that runs tests in memory instead of disk.
-      - image: circleci/postgres:9.5-alpine-ram
+      # Durability disabled to keep tests fast (replaces the old in-memory image).
+      - image: public.ecr.aws/docker/library/postgres:14.22-alpine
+        command: postgres -c fsync=off -c synchronous_commit=off -c full_page_writes=off
         environment:
           POSTGRES_USER: postgres
           POSTGRES_DB: postgres
-          POSTGRES_PASSWORD: ''
+          POSTGRES_HOST_AUTH_METHOD: trust
 
     steps:
       - checkout
 
-      # El Gemfile.lock se resuelve con Bundler 4 y la imagen trae una 2.x, que no
-      # entiende ni el formato del lock ni los `bundle config set` de abajo.
       - run:
           name: Install the bundler version the lockfile was built with
           command: |
@@ -51,13 +68,34 @@ jobs:
             gem install bundler --version "$BUNDLER_VERSION" --no-document
             bundle -v
 
+      - run:
+          name: Install AWS dependencies
+          working_directory: /
+          command: |
+            sudo apt-get -y -qq update
+            sudo apt-get -y -qq install python3-pip python3-dev
+            sudo pip3 install awscli
+
       - restore_cache:
           keys:
             - rails-api-bootstrap-bundle-{{ checksum "Gemfile.lock" }}
             # fallback to using the latest cache if no exact match is found
             - rails-api-bootstrap-bundle-
 
-      # Bundler 4 removio los flags --path y --without: ahora van por config local.
+      - run:
+          name: Configure CodeArtifact for bundler
+          command: |
+            { set +x; } 2>/dev/null
+            CODEARTIFACT_TOKEN=$(AWS_ACCESS_KEY_ID=$WIDERGYAPP_AWS_ACCESS_KEY_ID \
+              AWS_SECRET_ACCESS_KEY=$WIDERGYAPP_AWS_SECRET_ACCESS_KEY \
+              aws codeartifact get-authorization-token \
+              --domain $CODEARTIFACT_DOMAIN \
+              --domain-owner $CODEARTIFACT_DOMAIN_OWNER \
+              --region us-east-1 \
+              --query authorizationToken \
+              --output text)
+            bundle config "${CODEARTIFACT_URL}/ruby/gems/" "aws:${CODEARTIFACT_TOKEN}" >/dev/null
+
       - run:
           name: Bundle install dependencies
           command: |
@@ -80,16 +118,14 @@ jobs:
             sudo apt-get update
             sudo apt-get install -y postgresql-client
 
-      # database.yml resuelve el usuario con DB_USERNAME y default rails-api-bootstrap,
-      # y la imagen de postgres arranca solo con el rol postgres.
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
       - run:
           name: Create DB role
           command: |
             psql -h 127.0.0.1 -U postgres -c "CREATE ROLE \"rails-api-bootstrap\" WITH LOGIN CREATEDB;"
-
-      - run:
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
           name: Load DB schema
@@ -105,8 +141,176 @@ jobs:
           name: Run Tests
           command: bundle exec rspec
 
+  build-docker-image-arch:
+    parameters:
+      service_name:
+        type: string
+      arch:
+        type: enum
+        enum: [amd64, arm64]
+      resource_class:
+        type: string
+
+    machine:
+      image: ubuntu-2204:current
+    resource_class: << parameters.resource_class >>
+
+    working_directory: ~/rails-api-bootstrap
+
+    steps:
+      - checkout
+
+      - run:
+          name: Setup Docker Buildx
+          command: |
+            docker buildx create --name buildkit-ecr --driver docker-container --use
+            docker buildx inspect buildkit-ecr --bootstrap
+
+      - run:
+          name: Authenticate to AWS ECR
+          command: |
+            # amazon/aws-cli es multi-arch, asi no dependemos de la CLI instalada en la imagen de la VM.
+            docker run --rm \
+              -e AWS_ACCESS_KEY_ID=$WIDERGY_CROSS_ACCESS_KEY_ID \
+              -e AWS_SECRET_ACCESS_KEY=$WIDERGY_CROSS_SECRET_ACCESS_KEY \
+              amazon/aws-cli ecr get-login-password --region us-east-1 \
+              | docker login --username AWS --password-stdin 325736894961.dkr.ecr.us-east-1.amazonaws.com
+
+      - run:
+          name: Build and push image to AWS ECR
+          command: |
+            export SERVICE_NAME=<< parameters.service_name >>
+            export REPOSITORY=325736894961.dkr.ecr.us-east-1.amazonaws.com/$SERVICE_NAME
+            export ARCH=<< parameters.arch >>
+            export IMAGE=${REPOSITORY}:${CIRCLE_SHA1}-${ARCH}
+
+            # Token de CodeArtifact. Entra al build como secret de BuildKit y no queda
+            # en la imagen ni en el cache. En este template el Dockerfile no lo exige,
+            # pero se manda igual para el repo que lo use y agregue gemas internas.
+            { set +x; } 2>/dev/null
+            export CA_TOKEN=$(AWS_ACCESS_KEY_ID=$WIDERGYAPP_AWS_ACCESS_KEY_ID \
+              AWS_SECRET_ACCESS_KEY=$WIDERGYAPP_AWS_SECRET_ACCESS_KEY \
+              docker run --rm -e AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY \
+              amazon/aws-cli codeartifact get-authorization-token \
+              --domain $CODEARTIFACT_DOMAIN \
+              --domain-owner $CODEARTIFACT_DOMAIN_OWNER \
+              --region us-east-1 \
+              --query authorizationToken \
+              --output text)
+
+            docker buildx build --platform linux/${ARCH} --provenance=false --push --secret id=ca_token,env=CA_TOKEN --cache-to type=registry,ref=${REPOSITORY}:buildcache-${ARCH},mode=max --cache-from type=registry,ref=${REPOSITORY}:buildcache-${ARCH} -t ${IMAGE} .
+
+  merge-docker-manifest:
+    parameters:
+      service_name:
+        type: string
+
+    docker:
+      - image: public.ecr.aws/y1m5u4q9/ci-tools:kubectl-v1.33.0-docker-v28.3.2-aws-v2.27.50-az-v2.77.0
+
+    steps:
+      - setup_remote_docker
+
+      - run:
+          name: Authenticate to AWS ECR
+          command: |
+            export AWS_ACCESS_KEY_ID=$WIDERGY_CROSS_ACCESS_KEY_ID
+            export AWS_SECRET_ACCESS_KEY=$WIDERGY_CROSS_SECRET_ACCESS_KEY
+
+            aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 325736894961.dkr.ecr.us-east-1.amazonaws.com
+
+      - run:
+          name: Create multi-arch manifest
+          command: |
+            export SERVICE_NAME=<< parameters.service_name >>
+            export REPOSITORY=325736894961.dkr.ecr.us-east-1.amazonaws.com/$SERVICE_NAME
+            export IMAGE=${REPOSITORY}:$CIRCLE_SHA1
+
+            docker buildx imagetools create -t ${IMAGE} ${IMAGE}-amd64 ${IMAGE}-arm64
+            docker buildx imagetools inspect ${IMAGE}
+
+  deploy:
+    parameters:
+      environment:
+        type: string
+      dir_environment:
+        type: string
+      file_pattern:
+        type: string
+      exclude_pattern:
+        type: string
+        default: '__noop__'
+
+    working_directory: /
+
+    docker:
+      - image: public.ecr.aws/y1m5u4q9/ci-tools:kubectl-v1.33.0-docker-v28.3.2-aws-v2.27.50
+
+    steps:
+      - run:
+          name: Clone ArgoCD Gitops Repository
+          command: |
+            git clone https://$GITHUB_IAC_TOKEN@github.com/widergy-iac/widergy-argocd-gitops.git
+
+      - run:
+          name: Commit image tag
+          command: |
+            export ENVIRONMENT=<< parameters.environment >>
+            export DIR_ENVIRONMENT=<< parameters.dir_environment >>
+            export FILE_PATTERN=<< parameters.file_pattern >>
+            export EXCLUDE_PATTERN=<< parameters.exclude_pattern >>
+            export APP_PATH=./widergy-apps/widergy-apps-$DIR_ENVIRONMENT/values/
+
+            git config --global user.email circleci-iac@widergyapp.com
+            git config --global user.name widergy-circleci-iac
+            cd widergy-argocd-gitops
+
+            find $APP_PATH -type f -name "$FILE_PATTERN" ! -name '*connector*' ! -name "$EXCLUDE_PATTERN" | xargs sed -i 's/^\(\s*tag:\s*\).*/\1'"$CIRCLE_SHA1"'/'
+
+            git add .
+            git commit -m "tag: update rails-api-bootstrap ${ENVIRONMENT} image tag to ${CIRCLE_SHA1}"
+            git push origin main
+
+      - when:
+          condition:
+            or:
+              - equal: [qa, << parameters.environment >>]
+              - equal: [stg, << parameters.environment >>]
+          steps:
+            - run:
+                name: Notify energy-bot of deployment
+                command: |
+                  BRANCH_TAG_PREFIX=$(echo "$CIRCLE_BRANCH" | sed -E 's/-[0-9]{2}-[0-9]{2}-[0-9]{4}$//')
+                  TAG="$BRANCH_TAG_PREFIX-deploy-$CIRCLE_SHA1"
+                  if curl -sf -X POST \
+                    -H "Authorization: token $GITHUB_TOKEN" \
+                    -H "Content-Type: application/json" \
+                    -d "{\"ref\": \"refs/tags/$TAG\", \"sha\": \"$CIRCLE_SHA1\"}" \
+                    "https://api.github.com/repos/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME/git/refs"; then
+                    echo "energy-bot triggered for $TAG"
+                  else
+                    echo "energy-bot already triggered by another job for $TAG, skipping"
+                  fi
+
+  check-new-commits:
+    docker:
+      - image: cimg/node:20.18
+    steps:
+      - checkout
+      - run:
+          name: Check for new commits since last deploy
+          command: |
+            git fetch --tags --quiet
+            if [ -n "$(git tag -l "*-deploy-$CIRCLE_SHA1")" ]; then
+              echo "No hay commits nuevos desde el ultimo deploy ($CIRCLE_SHA1). Abortando."
+              exit 1
+            fi
+
 workflows:
-  build-and-test:
+  build-and-deploy:
+    when:
+      not:
+        equal: [scheduled_pipeline, << pipeline.trigger_source >>]
     jobs:
       - build-and-test:
           <<: *widergy-context
@@ -121,3 +325,159 @@ workflows:
           name: build-and-test-branch
           requires:
             - approval-build-and-test
+
+      # QA
+      - build-docker-image-arch:
+          <<: *widergy-context
+          <<: *qa-filters
+          name: build-docker-image-qa-amd64
+          requires:
+            - build-and-test-branch
+          service_name: rails-api-bootstrap
+          arch: amd64
+          resource_class: large
+      - build-docker-image-arch:
+          <<: *widergy-context
+          <<: *qa-filters
+          name: build-docker-image-qa-arm64
+          requires:
+            - build-and-test-branch
+          service_name: rails-api-bootstrap
+          arch: arm64
+          resource_class: arm.medium
+      - merge-docker-manifest:
+          <<: *widergy-context
+          <<: *qa-filters
+          name: build-docker-image-qa
+          requires:
+            - build-docker-image-qa-amd64
+            - build-docker-image-qa-arm64
+          service_name: rails-api-bootstrap
+      - deploy:
+          <<: *widergy-context
+          <<: *qa-filters
+          name: deploy-qa
+          requires:
+            - build-docker-image-qa
+          environment: qa
+          dir_environment: dev
+          file_pattern: 'values-rails-api-bootstrap-qa*'
+
+      # STAGE
+      - build-docker-image-arch:
+          <<: *widergy-context
+          <<: *stage-filters
+          name: build-docker-image-stage-amd64
+          requires:
+            - build-and-test-branch
+          service_name: rails-api-bootstrap
+          arch: amd64
+          resource_class: large
+      - build-docker-image-arch:
+          <<: *widergy-context
+          <<: *stage-filters
+          name: build-docker-image-stage-arm64
+          requires:
+            - build-and-test-branch
+          service_name: rails-api-bootstrap
+          arch: arm64
+          resource_class: arm.medium
+      - merge-docker-manifest:
+          <<: *widergy-context
+          <<: *stage-filters
+          name: build-docker-image-stage
+          requires:
+            - build-docker-image-stage-amd64
+            - build-docker-image-stage-arm64
+          service_name: rails-api-bootstrap
+      - deploy:
+          <<: *widergy-context
+          <<: *stage-filters
+          name: deploy-stage
+          requires:
+            - build-docker-image-stage
+          environment: stg
+          dir_environment: dev
+          file_pattern: 'values-rails-api-bootstrap-stg*'
+
+      # PRODUCCION
+      - approval-build-docker-image-prod:
+          <<: *prod-filters
+          type: approval
+      - build-docker-image-arch:
+          <<: *widergy-context
+          <<: *prod-filters
+          name: build-docker-image-prod-amd64
+          requires:
+            - approval-build-docker-image-prod
+          service_name: rails-api-bootstrap
+          arch: amd64
+          resource_class: large
+      - build-docker-image-arch:
+          <<: *widergy-context
+          <<: *prod-filters
+          name: build-docker-image-prod-arm64
+          requires:
+            - approval-build-docker-image-prod
+          service_name: rails-api-bootstrap
+          arch: arm64
+          resource_class: arm.medium
+      - merge-docker-manifest:
+          <<: *widergy-context
+          <<: *prod-filters
+          name: build-docker-image-prod
+          requires:
+            - build-docker-image-prod-amd64
+            - build-docker-image-prod-arm64
+          service_name: rails-api-bootstrap
+      - deploy:
+          <<: *widergy-context
+          <<: *prod-filters
+          name: deploy-prod
+          requires:
+            - build-docker-image-prod
+          environment: prod
+          dir_environment: prod
+          file_pattern: 'values-rails-api-bootstrap*'
+
+  auto-qa-deploy:
+    when:
+      equal: [scheduled_pipeline, << pipeline.trigger_source >>]
+    jobs:
+      - check-new-commits:
+          <<: *widergy-context
+      - build-and-test:
+          <<: *widergy-context
+          requires:
+            - check-new-commits
+      - build-docker-image-arch:
+          <<: *widergy-context
+          name: auto-build-docker-image-qa-amd64
+          requires:
+            - build-and-test
+          service_name: rails-api-bootstrap
+          arch: amd64
+          resource_class: large
+      - build-docker-image-arch:
+          <<: *widergy-context
+          name: auto-build-docker-image-qa-arm64
+          requires:
+            - build-and-test
+          service_name: rails-api-bootstrap
+          arch: arm64
+          resource_class: arm.medium
+      - merge-docker-manifest:
+          <<: *widergy-context
+          name: auto-build-docker-image-qa
+          requires:
+            - auto-build-docker-image-qa-amd64
+            - auto-build-docker-image-qa-arm64
+          service_name: rails-api-bootstrap
+      - deploy:
+          <<: *widergy-context
+          name: auto-deploy-qa
+          requires:
+            - auto-build-docker-image-qa
+          environment: qa
+          dir_environment: dev
+          file_pattern: 'values-rails-api-bootstrap-qa*'

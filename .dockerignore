@@ -1,0 +1,43 @@
+# Sin este archivo, el `COPY . .` del Dockerfile mete todo el working tree en la
+# imagen -- incluidos los .env con credenciales, que quedan en una capa y viajan
+# al registry.
+
+# Credenciales
+.env
+.env.*
+!.env.*.example
+
+# Config local de bundler: apunta a rutas del host (ej. el pg_config de Homebrew)
+# y no tiene sentido dentro del contenedor.
+.bundle
+
+# El token de CodeArtifact entra como secret de BuildKit, ver Dockerfile.
+.npmrc
+
+# Historia de git: no la necesita el build
+.git
+.gitignore
+
+# Tests: no corren dentro de la imagen y db/seeds.rb de este template no usa
+# factories. Si el repo que lo use arma seeds con FactoryBot, hay que desexcluir
+# spec/factories y spec/support como hace UtilityGO-API.
+spec
+test
+
+# CI y deploy: nada de esto se ejecuta dentro del contenedor
+.circleci
+.github
+Dockerfile
+.dockerignore
+docker-compose*.yml
+CHANGELOG.md
+
+# Artefactos locales. public/assets se regenera con assets:precompile en el build.
+coverage
+tmp
+log
+public/assets
+.idea
+# Los patrones sin `**` matchean solo la raiz: hay .DS_Store en app/, config/, etc.
+**/*.log
+**/.DS_Store
