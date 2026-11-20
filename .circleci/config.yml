@@ -42,7 +42,7 @@ jobs:
     resource_class: medium
 
     docker:
-      - image: cimg/ruby:3.3.9-node
+      - image: cimg/ruby:3.3.14-node
         environment:
           RAILS_ENV: test
           PGHOST: 127.0.0.1
@@ -94,7 +94,7 @@ jobs:
               --region us-east-1 \
               --query authorizationToken \
               --output text)
-            bundle config "${CODEARTIFACT_URL}/ruby/gems/" "aws:${CODEARTIFACT_TOKEN}" >/dev/null
+            bundle config set "${CODEARTIFACT_URL}/ruby/gems/" "aws:${CODEARTIFACT_TOKEN}" >/dev/null
 
       - run:
           name: Bundle install dependencies
