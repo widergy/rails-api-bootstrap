@@ -53,8 +53,11 @@ The code is mounted as a volume, so changes show up without rebuilding. You do n
 rebuild when the `Gemfile` or the `Dockerfile` change:
 
 ```bash
-  docker compose build
+  make docker-build
 ```
+
+`make docker-build` runs `docker compose build` passing the CodeArtifact token as the
+`ca_token` BuildKit secret, so it keeps working once the repo adds internal gems.
 
 ### Building the production image
 
