@@ -41,3 +41,4 @@ public/assets
 # Los patrones sin `**` matchean solo la raiz: hay .DS_Store en app/, config/, etc.
 **/*.log
 **/.DS_Store
+.make

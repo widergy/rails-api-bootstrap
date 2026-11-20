@@ -29,6 +29,8 @@ services:
       context: .
       args:
         RAILS_ENV: development
+      secrets:
+        - ca_token
     command: bundle exec rails server -b 0.0.0.0
     volumes:
       - .:/app
@@ -52,6 +54,8 @@ services:
   #     context: .
   #     args:
   #       RAILS_ENV: development
+  #     secrets:
+  #       - ca_token
   #   command: bundle exec sidekiq
   #   volumes:
   #     - .:/app
@@ -70,3 +74,10 @@ services:
 volumes:
   pg-data:
   bundle:
+
+# Token de CodeArtifact para instalar gemas internas. Entra al build como secret de
+# BuildKit (ver Dockerfile). `make docker-build` lo exporta; para otro comando que buildee:
+#   export CA_TOKEN=$(make -s ca-token)
+secrets:
+  ca_token:
+    environment: CA_TOKEN

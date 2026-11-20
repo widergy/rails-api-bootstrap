@@ -42,10 +42,13 @@ Kickoff for Rails API applications.
   gem install bundler --no-document
   rbenv rehash
 ```
-- Install all the gems included in the project.
+- Install all the gems included in the project. `make install` logs in to AWS CodeArtifact
+  (where the internal gems live) and runs `bundle install`. It uses the shared commands from
+  [dev-makefiles](https://github.com/widergy/dev-makefiles); run `make` to list them. It needs
+  the AWS CLI with the `widergyapp` profile (`make doctor` checks the setup).
 
 ```bash
-  bundle -j 20
+  make install
 ```
 
 ### 4- Database Setup
